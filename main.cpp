@@ -89,7 +89,7 @@ while(quit == false)
         manager.getKeys(e);
     }
     glClear(GL_COLOR_BUFFER_BIT);
-    double height = r.getRect().y;
+    double height = r.position.get()->getRect().y;
     glClearColor(0,(.7-height/10000),1-height/10000,0);
 
     glUseProgram(program);
@@ -101,9 +101,9 @@ while(quit == false)
    // background.render(0,0,screenWidth,screenHeight,0);
     r.update(manager);
     c.adjust();
-    c.render(r);
+    c.render(*(r.position.get()),*(r.sprite.get()));
     world.update(c);
-    alef.write(wordProgram,"Health: " + convert(r.getHealth()),0,0,1,{0,0,0});
+    alef.write(wordProgram,"Health: " + convert(r.health.get()->getHealth()),0,0,1,{0,0,0});
    // box.render(0,0,64,64,0);
 
     SDL_GL_SwapWindow(window);

@@ -35,11 +35,12 @@ public:
 struct PositionComponent : public Component
 {
     protected:
+    glm::vec4 boundingRect;
     public:
     void setRect(glm::vec4 rect);
-    virtual void changeCoords(double x, double y, Thing& e);
-
-    virtual void move(double x, double y, Thing& e);
+    virtual void changeCoords(double x, double y);
+    glm::vec4 getRect() const;
+    glm::vec2 getCenter() const;
 };
 struct HealthComponent : public Component
 {    float damaged = -1;
@@ -52,25 +53,23 @@ struct HealthComponent : public Component
 class Thing //anything with coordinates and a sprite
 {
 protected:
-    glm::vec4 boundingRect;
-    std::unique_ptr<SpriteComponent> sprite;
-    std::unique_ptr<PositionComponent> position;
 public:
-            double speed =0;
-
+        std::unique_ptr<SpriteComponent> sprite;
+    std::unique_ptr<PositionComponent> position;
     Thing();
      PositionComponent& getPosition();
      SpriteComponent&  getSprite();
-    glm::vec4 getRect() const;
-    glm::vec2 getCenter() const;
 };
 
-class Entity : public IDed, public Thing//anything with health
+class Entity : public IDed//anything with health
 {
 protected:
 
-    std::unique_ptr<HealthComponent> health;
+
 public:
+    std::unique_ptr<HealthComponent> health;
+    std::unique_ptr<SpriteComponent> sprite;
+    std::unique_ptr<PositionComponent> position;
     Entity(int ID);
    virtual void update();
    double getHealth();

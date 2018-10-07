@@ -5,29 +5,41 @@
 #include "camera.h"
 
 class CreatureWorld;
+class Creature;
 struct AIComponent : public Component
 {
-    virtual void AI( Entity& e) ;
+    virtual void AI( Creature& e) ;
 
 };
 struct CreatureSprite : public SpriteComponent
 {
     void changeAngle(double newAngle);
 };
-class Creature;
 struct CreaturePosition : public PositionComponent
 {
-    void move(double x, double y, Thing& c);
+    double speed = 0;
+    void move(double x, double y,Creature& c);//moves creature in the direction x, y;
+    void moveTowards(double x, double y, Creature& c); //moves the creatures towards a point.
 };
-class Creature : public Entity
+class Creature : public IDed
 {
 protected:
     CreatureWorld* world = nullptr;
     std::vector<Thing> attachments;
-    std::unique_ptr<AIComponent> AI;
+
 public:
+    std::unique_ptr<HealthComponent> health;
+    std::unique_ptr<SpriteComponent> sprite;
+    std::unique_ptr<CreaturePosition> position;
+    std::unique_ptr<AIComponent> AI;
     Creature(CreatureWorld& World, int ID);
     AIComponent& getAI();
+    void update()
+    {
+        health.get()->updateDamaged();
+        glm::vec4 rect = position.get()->getRect();
+        sprite.get()->render(rect.x,rect.y,rect.w,rect.a);
+    }
 };
 
 class Rocket;
@@ -43,7 +55,6 @@ public:
     void addCreature(Creature& c);
     std::vector<Creature*> getNearestCreatures(double radius, Creature& c);
     void update(Camera& c);
-    void move(double x, double y);
 };
 
 struct SchoolOfFishSprite : public CreatureSprite
@@ -53,9 +64,9 @@ struct SchoolOfFishSprite : public CreatureSprite
 
 struct SchoolOfFishAI : public AIComponent
 {
-    virtual void AI(Entity& school)
+    virtual void AI(Creature& school)
     {
-        school.getPosition().move(.1,0, school);
+        school.position.get()->move(.5,0,school);
     }
 };
 

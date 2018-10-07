@@ -1,11 +1,11 @@
 #include "creatures.h"
 #include "image.h"
-void AIComponent::AI(Entity& e) {
+void AIComponent::AI(Creature& e) {
 
 
 }
 
-Creature::Creature(CreatureWorld& World, int ID) : Entity(ID)
+Creature::Creature(CreatureWorld& World, int ID) : IDed(ID)
 {
     world = &World;
             position.reset(new CreaturePosition);
@@ -30,12 +30,27 @@ void CreatureSprite::changeAngle(double newAngle)
     }
 }
 
-void CreaturePosition::move(double x, double y, Thing& c)
+void CreaturePosition::move(double x, double y, Creature& c)//moves creature in the direction x, y;
 {
-    glm::vec4 hit = c.getRect();
+
+    moveTowards(boundingRect.x + x, boundingRect.y + y,c);
+}
+
+void CreaturePosition::moveTowards(double x, double y, Creature& c) //moves the creatures towards a point.
+{
+    glm::vec4 hit = boundingRect;
     double radians = atan2(y-hit.y, x-hit.x );
-    double speed = c.speed;
-    changeCoords(hit.x + (abs(x-hit.x) > speed*cos(radians))*speed*cos(radians), hit.y + (abs(y-hit.y) > speed*sin(radians))*speed*sin(radians),c);
+    double horizSpeed = speed*cos(radians);
+    if (x - hit.x < horizSpeed)
+    {
+        horizSpeed = x-hit.x;
+    }
+    double vertSpeed = speed*sin(radians);
+    if (y - hit.y < vertSpeed)
+    {
+        vertSpeed = y-hit.y;
+    }
+    changeCoords(hit.x + horizSpeed, hit.y + vertSpeed);
 }
 
 CreatureWorld::CreatureWorld()
@@ -55,12 +70,12 @@ std::vector<Creature*> CreatureWorld::getNearestCreatures(double radius, Creatur
 {
     std::vector<Creature*> lst;
     int size = creatures.size();
-    glm::vec4 hitBox = c.getRect();
+    glm::vec4 hitBox = c.position.get()->getRect();
     glm::vec4 bigBox(hitBox.x - radius, hitBox.y - radius, radius*2+hitBox.z, radius*2 + hitBox.a);
     for (int i = 0; i < size;i ++)
     {
         Creature* current = creatures[i];
-        glm::vec4 curCenter = current->getRect();
+        glm::vec4 curCenter = current->position.get()->getRect();
         if (vecIntersect(bigBox,curCenter))
         {
             lst.push_back(current);
@@ -75,7 +90,7 @@ void CreatureWorld::update(Camera& c)
     for (int i = 0 ; i <size; i ++)
     {
         creatures[i]->getAI().AI(*creatures[i]);
-        c.render(*creatures[i]);
+        c.render(*creatures[i]->position.get(),*creatures[i]->sprite.get());
     }
 }
 
@@ -86,21 +101,20 @@ SchoolOfFish::SchoolOfFish(double x, double y, CreatureWorld& World) : Creature(
     sprite.get()->setSprite(fish);
     AI.reset(new SchoolOfFishAI);
     position.get()->setRect(glm::vec4(x,y,32,16));
-    speed = .1;
+    position.get()->speed = .5;
     health.get()->health = 10;
 }
 
 void SchoolOfFishSprite::render(double x, double y, double w, double h)
 {
      Sprite* s = &(getSprite());
-    glm::vec4 pos{x,y,w,h};
     std::vector<glm::vec3> points;
     for (int i = 0; i < 16; i ++)
     {
         int sign = ((i%2 == 0)*(-2) + 1);
-        points.push_back(glm::vec3(x + (sign*(i%4)*20),y + 50*sin((pos.x/5 + i*M_PI/4)/10),0));
+        points.push_back(glm::vec3(x + (sign*(i%4)*20),y + 50*sin((x/5 + i*M_PI/4)/10),0));
     }
-    s->renderInstanced(program,points,pos.z/4.0, pos.a/4.0);
+    s->renderInstanced(program,points,w/2.0, h/2.0);
 }
 
 /*Shark::Shark( double x, double y, CreatureWorld& World) : Creature(x,y,256,128,shark,20,World, SHARK)

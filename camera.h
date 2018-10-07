@@ -13,7 +13,7 @@ public:
     Camera();
     void init(int width, int height, Rocket* r);
     void adjust();
-    void render(Thing& t);
+    void render(PositionComponent& p, SpriteComponent& s);
     glm::vec4 getRegion();
 
 

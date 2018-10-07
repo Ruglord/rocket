@@ -32,7 +32,7 @@
     }
     void Rocket::update(KeyManager& manager) //pressed = true if key was pressed false if released
     {
-            double a = sprite.get()->getAngle();
+    /*        double a = sprite.get()->getAngle();
             if (manager.findNumber(SDLK_SPACE) != -1)
             {
                 changeSpeed(cos(a)*baseSpeed,-sin(a)*baseSpeed);
@@ -50,6 +50,6 @@
       //  std::cout << coords.y + coords.a << std::endl;
         //changeSpeed(0,gravity*(coords.y + coords.a< 640));
        // vertSpeed += gravity;
-        position.get()->move(coords.x,coords.y);
+        position.get()->move(coords.x,coords.y, *this);*/
        // changeSpeed(0,0);
     }

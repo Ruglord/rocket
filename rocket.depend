@@ -3,7 +3,7 @@
 
 1536544657 c:\users\leoou\onedrive\desktop\projects\rocket\sprites.h
 
-1538844418 source:c:\users\leoou\onedrive\desktop\projects\rocket\main.cpp
+1538862259 source:c:\users\leoou\onedrive\desktop\projects\rocket\main.cpp
 	<iostream>
 	<SDL.h>
 	<glew.h>
@@ -913,7 +913,7 @@
 1538441784 c:\users\leoou\onedrive\desktop\projects\rocket\rocket.h
 	"creatures.h"
 
-1538843693 c:\users\leoou\onedrive\desktop\projects\rocket\objects.h
+1538861586 c:\users\leoou\onedrive\desktop\projects\rocket\objects.h
 	"render.h"
 	<SDL.h>
 	<SDLhelper.h>
@@ -951,7 +951,7 @@
 1536717209 source:c:\users\leoou\onedrive\desktop\projects\rocket\sparkles.cpp
 	"sparkles.h"
 
-1538837015 source:c:\users\leoou\onedrive\desktop\projects\rocket\objects.cpp
+1538878218 source:c:\users\leoou\onedrive\desktop\projects\rocket\objects.cpp
 	<glm.hpp>
 	<gtc/matrix_transform.hpp>
 	<gtc/type_ptr.hpp>
@@ -961,22 +961,22 @@
 1538451326 source:c:\users\leoou\onedrive\desktop\resources\sparkles.cpp
 	"sparkles.h"
 
-1538489765 c:\users\leoou\onedrive\desktop\projects\rocket\camera.h
+1538860410 c:\users\leoou\onedrive\desktop\projects\rocket\camera.h
 	<glm.hpp>
 	"objects.h"
 
-1538844357 source:c:\users\leoou\onedrive\desktop\projects\rocket\camera.cpp
+1538860691 source:c:\users\leoou\onedrive\desktop\projects\rocket\camera.cpp
 	"camera.h"
 	"creatures.h"
 	"rocket.h"
 
 1537806196 c:\users\leoou\onedrive\desktop\resources\sdlhelper.h
 
-1538844484 source:c:\users\leoou\onedrive\desktop\projects\rocket\creatures.cpp
+1538879433 source:c:\users\leoou\onedrive\desktop\projects\rocket\creatures.cpp
 	"creatures.h"
 	"image.h"
 
-1538843197 c:\users\leoou\onedrive\desktop\projects\rocket\creatures.h
+1538879534 c:\users\leoou\onedrive\desktop\projects\rocket\creatures.h
 	<vector>
 	"objects.h"
 	"camera.h"
@@ -994,7 +994,7 @@
 1538443072 source:c:\users\leoou\onedrive\desktop\resources\vanilla.cpp
 	"vanilla.h"
 
-1538582343 source:c:\users\leoou\onedrive\desktop\projects\rocket\rocket.cpp
+1538878218 source:c:\users\leoou\onedrive\desktop\projects\rocket\rocket.cpp
 	"rocket.h"
 	"image.h"
 

@@ -12,15 +12,10 @@ const double gravity = .01;
     {
         return *position;
     }
-    void PositionComponent::move(double x, double y, Thing& t)
+    void PositionComponent::changeCoords(double x, double y)
     {
-        changeCoords(t.getRect().x + x, t.getRect().y + y,t);
-    }
-
-    void PositionComponent::changeCoords(double x, double y, Thing& t)
-    {
-        t.getRect().x = x;
-        t.getRect().y = y;
+        boundingRect.x = x;
+        boundingRect.y = y;
     }
     void PositionComponent::setRect(glm::vec4 rect)
     {
@@ -70,6 +65,7 @@ const double gravity = .01;
     {
         health.get()->updateDamaged();
         glm::vec4 rect = position.get()->getRect();
+        std::cout << rect.x << " " << rect.y << std::endl;
         sprite.get()->render(rect.x,rect.y,rect.w,rect.a);
 
     }
