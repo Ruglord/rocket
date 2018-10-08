@@ -34,7 +34,7 @@ public:
     std::unique_ptr<AIComponent> AI;
     Creature(CreatureWorld& World, int ID);
     AIComponent& getAI();
-    void update()
+   virtual  void update()
     {
         health.get()->updateDamaged();
         glm::vec4 rect = position.get()->getRect();
@@ -66,7 +66,7 @@ struct SchoolOfFishAI : public AIComponent
 {
     virtual void AI(Creature& school)
     {
-        school.position.get()->move(.5,0,school);
+        school.position.get()->move(0,0,school);
     }
 };
 

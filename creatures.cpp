@@ -32,7 +32,6 @@ void CreatureSprite::changeAngle(double newAngle)
 
 void CreaturePosition::move(double x, double y, Creature& c)//moves creature in the direction x, y;
 {
-
     moveTowards(boundingRect.x + x, boundingRect.y + y,c);
 }
 
@@ -41,12 +40,12 @@ void CreaturePosition::moveTowards(double x, double y, Creature& c) //moves the 
     glm::vec4 hit = boundingRect;
     double radians = atan2(y-hit.y, x-hit.x );
     double horizSpeed = speed*cos(radians);
-    if (x - hit.x < horizSpeed)
+    if (abs(x - hit.x) < abs(horizSpeed))
     {
         horizSpeed = x-hit.x;
     }
     double vertSpeed = speed*sin(radians);
-    if (y - hit.y < vertSpeed)
+    if (abs(y - hit.y) < abs(vertSpeed))
     {
         vertSpeed = y-hit.y;
     }

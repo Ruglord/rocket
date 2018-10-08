@@ -59,6 +59,8 @@
 		<Unit filename="camera.h" />
 		<Unit filename="creatures.cpp" />
 		<Unit filename="creatures.h" />
+		<Unit filename="game.cpp" />
+		<Unit filename="game.h" />
 		<Unit filename="image.cpp" />
 		<Unit filename="image.h" />
 		<Unit filename="main.cpp" />

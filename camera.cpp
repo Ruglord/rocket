@@ -25,7 +25,6 @@
     {
 
             glm::vec4 coords = p.getRect();
-    //        std::cout << coords.x-region.x << " " << coords.y-region.y  << std::endl;
             s.render(coords.x-region.x,coords.y-region.y, coords.z, coords.a);
     }
     glm::vec4 Camera::getRegion()

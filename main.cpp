@@ -17,9 +17,11 @@
 #include "creatures.h"
 #include "rocket.h"
 #include "camera.h"
-
+#include "game.h"
 const int screenWidth = 640;
 const int screenHeight = 640;
+int Game::screenWidth = 0;
+int Game::screenHeight = 0;
 int main(int argc, char *argv[])
 {
 
@@ -30,8 +32,12 @@ SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,SDL_GL_CONTEXT_PROFILE_CORE);
 SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 3 );
 SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 3 );
 SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE );
+
+Game::init();
+glm::vec2 dimen = Game::getDimentions();
+
 SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER,1);
-SDL_Window* window = SDL_CreateWindow("game", SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,screenWidth, screenHeight,SDL_WINDOW_OPENGL);
+SDL_Window* window = SDL_CreateWindow("game", SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,dimen.x,dimen.y,SDL_WINDOW_OPENGL );
 SDL_GL_CreateContext(window);
 SDL_StopTextInput();
 glewExperimental = true;
@@ -99,7 +105,7 @@ while(quit == false)
   //  glm::vec4 region = c.getRegion();
   //  background.setPortion(region.x/screenWidth, region.y/screenHeight,1,1);
    // background.render(0,0,screenWidth,screenHeight,0);
-    r.update(manager);
+    r.update(manager, e);
     c.adjust();
     c.render(*(r.position.get()),*(r.sprite.get()));
     world.update(c);
