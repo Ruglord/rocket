@@ -2,13 +2,14 @@
 #define ROCKET_H_INCLUDED
 #include "creatures.h"
 
+struct InputController;
 struct InputComponent
 {
-   virtual void update(KeyManager& manager,SDL_Event& e);
+   virtual void update(InputController& manager,SDL_Event& e);
 };
 struct RocketInput : public InputComponent
 {
-    void update(KeyManager& manager,SDL_Event& e, Rocket& r);
+    void update(InputController& manager,SDL_Event& e, Rocket& r);
 };
 class Rocket :public Creature
 {
@@ -17,8 +18,8 @@ class Rocket :public Creature
     static const double maxSpeed;
 public:
     std::unique_ptr<RocketInput> input;
-    Rocket(double x, double y, CreatureWorld& world);
-    void update(KeyManager& manager, SDL_Event& e);
+    Rocket(double x, double y);
+    void update(InputController& manager, SDL_Event& e);
     void changeSpeed(double horiz, double vert);
     void changeAngle(double newAngle);
 };

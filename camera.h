@@ -1,8 +1,7 @@
 #ifndef CAMERA_H_INCLUDED
 #define CAMERA_H_INCLUDED
-
-#include <glm.hpp>
 #include "objects.h"
+#include <glm.hpp>
 class Rocket;
 class Camera
 {
@@ -14,18 +13,21 @@ public:
     void init(int width, int height, Rocket* r);
     void adjust();
     void render(PositionComponent& p, SpriteComponent& s);
+    void renderCenter();
     glm::vec4 getRegion();
 
 
 };
-
+class Creature;
 class RenderController
 {
     Camera camera;
-    void renderEntities(std::vector<Entity*>& lst);
+    void renderEntities(const std::vector<Creature*>& lst);
 public:
     RenderController(int width, int height, Rocket& r);
-    void render();
+    void renderAll(const std::vector<Creature*>& lst);
+    void render(PositionComponent& p, SpriteComponent& s);
+    glm::vec4 getRegion();
 };
 
 #endif // CAMERA_H_INCLUDED

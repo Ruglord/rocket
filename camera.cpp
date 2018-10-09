@@ -27,6 +27,10 @@
             glm::vec4 coords = p.getRect();
             s.render(coords.x-region.x,coords.y-region.y, coords.z, coords.a);
     }
+    void Camera::renderCenter()
+    {
+        render(*(center->position.get()),*(center->sprite.get()));
+    }
     glm::vec4 Camera::getRegion()
     {
         return region;
@@ -36,14 +40,28 @@
     {
         camera.init(width,height,&r);
     }
-    void RenderController::renderEntities(std::vector<Entity*>& lst)
+    void RenderController::render(PositionComponent& p, SpriteComponent& s)
     {
-        for (std::vector<Entity*>::iterator i = lst.begin(); i < lst.end(); i ++)
+        camera.render(p,s);
+    }
+    void RenderController::renderEntities(const std::vector<Creature*>& lst)
+    {
+        int size = lst.size();
+        for (int i = 0; i < size; i ++)
         {
-            Entity* current = (*i);
+            Creature* current = lst[i];
             current->sprite.get()->getSprite().setTint({.5,.5,.5});
             camera.render(*current->position.get(),*current->sprite.get());
         }
+    }
+    void RenderController::renderAll(const std::vector<Creature*>& lst)
+    {
+        renderEntities(lst);
+        camera.renderCenter();
+    }
+    glm::vec4 RenderController::getRegion()
+    {
+        camera.getRegion();
     }
 
 

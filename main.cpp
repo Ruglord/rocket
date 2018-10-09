@@ -18,13 +18,17 @@
 #include "rocket.h"
 #include "camera.h"
 #include "game.h"
-const int screenWidth = 640;
-const int screenHeight = 640;
 int Game::screenWidth = 0;
 int Game::screenHeight = 0;
+RenderController* Game::renderer;
+Rocket* Game::player;
+CreatureWorld Game::world;
+InputController Game::input;
 int main(int argc, char *argv[])
 {
-
+    glm::vec4 a = {0,0,100,100};
+    glm::vec4 b = {-100,-100,100,100};
+   // std::cout << vecIntersect(a,b) << std::endl;
 bool quit = false;
 SDL_Event e;
 SDL_Init(SDL_INIT_VIDEO);
@@ -64,22 +68,20 @@ glDeleteShader(wordFragment);
 glDeleteShader(wordVertex);
 
 
-Font alef("alef.ttf",screenWidth,screenHeight);
+Font alef("alef.ttf",dimen.x,dimen.y);
 
 srand(time(NULL));
 
 std::vector<glm::vec3> vec;
 vec.push_back({0,0,0});
-loadSprites(screenWidth,screenHeight);
+loadSprites(dimen.x,dimen.y);
 
-KeyManager manager;
 
-CreatureWorld world;
-SchoolOfFish f(0,100, world);
-Rocket r(160,0,world);
-Camera c (screenWidth,screenHeight,&r);
-world.addCreature(f);
-world.addCreature(r);
+SchoolOfFish f(0,-400);
+CreatureWorld* world = &Game::world;
+world->addCreature(f);
+
+
 //rocket.mirror();
 //box.mirror();
 while(quit == false)
@@ -91,11 +93,9 @@ while(quit == false)
         {
           quit = true;
         }
-
-        manager.getKeys(e);
     }
     glClear(GL_COLOR_BUFFER_BIT);
-    double height = r.position.get()->getRect().y;
+    double height = 0;
     glClearColor(0,(.7-height/10000),1-height/10000,0);
 
     glUseProgram(program);
@@ -105,11 +105,8 @@ while(quit == false)
   //  glm::vec4 region = c.getRegion();
   //  background.setPortion(region.x/screenWidth, region.y/screenHeight,1,1);
    // background.render(0,0,screenWidth,screenHeight,0);
-    r.update(manager, e);
-    c.adjust();
-    c.render(*(r.position.get()),*(r.sprite.get()));
-    world.update(c);
-    alef.write(wordProgram,"Health: " + convert(r.health.get()->getHealth()),0,0,1,{0,0,0});
+    Game::everyTick(e);
+//    alef.write(wordProgram,"Health: " + convert(r.health.get()->getHealth()),0,0,1,{0,0,0});
    // box.render(0,0,64,64,0);
 
     SDL_GL_SwapWindow(window);

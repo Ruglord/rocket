@@ -5,9 +5,8 @@ void AIComponent::AI(Creature& e) {
 
 }
 
-Creature::Creature(CreatureWorld& World, int ID) : IDed(ID)
+Creature::Creature(int ID) : IDed(ID)
 {
-    world = &World;
             position.reset(new CreaturePosition);
         sprite.reset(new CreatureSprite);
         health.reset(new HealthComponent);
@@ -49,7 +48,9 @@ void CreaturePosition::moveTowards(double x, double y, Creature& c) //moves the 
     {
         vertSpeed = y-hit.y;
     }
+
     changeCoords(hit.x + horizSpeed, hit.y + vertSpeed);
+
 }
 
 CreatureWorld::CreatureWorld()
@@ -94,7 +95,7 @@ void CreatureWorld::update(Camera& c)
 }
 
 
-SchoolOfFish::SchoolOfFish(double x, double y, CreatureWorld& World) : Creature(World, SCHOOLOFFISH)
+SchoolOfFish::SchoolOfFish(double x, double y) : Creature( SCHOOLOFFISH)
 {
     sprite.reset(new SchoolOfFishSprite);
     sprite.get()->setSprite(fish);

@@ -24,7 +24,6 @@ struct CreaturePosition : public PositionComponent
 class Creature : public IDed
 {
 protected:
-    CreatureWorld* world = nullptr;
     std::vector<Thing> attachments;
 
 public:
@@ -32,13 +31,14 @@ public:
     std::unique_ptr<SpriteComponent> sprite;
     std::unique_ptr<CreaturePosition> position;
     std::unique_ptr<AIComponent> AI;
-    Creature(CreatureWorld& World, int ID);
+    Creature(int ID);
     AIComponent& getAI();
    virtual  void update()
     {
         health.get()->updateDamaged();
         glm::vec4 rect = position.get()->getRect();
-        sprite.get()->render(rect.x,rect.y,rect.w,rect.a);
+        AI.get()->AI(*this);
+        //sprite.get()->render(rect.x,rect.y,rect.w,rect.a);
     }
 };
 
@@ -66,14 +66,14 @@ struct SchoolOfFishAI : public AIComponent
 {
     virtual void AI(Creature& school)
     {
-        school.position.get()->move(0,0,school);
+        school.position.get()->move(1,0,school);
     }
 };
 
 class SchoolOfFish : public Creature
 {
 public:
-    SchoolOfFish(double x, double y, CreatureWorld& World);
+    SchoolOfFish(double x, double y);
 };
 
 

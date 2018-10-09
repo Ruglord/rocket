@@ -1,12 +1,13 @@
  #include "rocket.h"
 #include "image.h"
+#include "game.h"
  const double Rocket::maxSpeed = 1;
 
- void InputComponent::update(KeyManager& manager, SDL_Event& e)
+ void InputComponent::update(InputController& manager, SDL_Event& e)
  {
 
  }
- void RocketInput::update(KeyManager& manager, SDL_Event& e, Rocket& r)
+ void RocketInput::update(InputController& manager, SDL_Event& e, Rocket& r)
  {
         int x, y;
         SDL_GetMouseState(&x,&y);
@@ -16,16 +17,16 @@
         //std::cout << angle << std::endl;
         r.sprite.get()->changeAngle(angle);
 
-    if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT)
+    if (manager.mouseManager.findNumber(SDL_BUTTON_LEFT))
     {
 
-        r.position.get()->moveTowards(x,y,r);
+        //r.position.get()->moveTowards(x,y,r);
     }
  }
-    Rocket::Rocket(double x, double y,CreatureWorld& world) : Creature(world, ROCKET)
+    Rocket::Rocket(double x, double y) : Creature( ROCKET)
     {
-
-        position.get()->setRect(glm::vec4(x,y,96,64));
+        glm::vec2 dimen = Game::getDimentions();
+        position.get()->setRect(glm::vec4(x,y,150,100));
         position.get()->speed = 1;
               sprite.reset(new SpriteComponent);
          sprite.get()->setSprite(rocket);
@@ -42,7 +43,7 @@
         horizSpeed = incX/denom;
         vertSpeed = incY/denom;
     }
-    void Rocket::update(KeyManager& manager, SDL_Event& e) //pressed = true if key was pressed false if released
+    void Rocket::update(InputController& manager, SDL_Event& e) //pressed = true if key was pressed false if released
     {
         input.get()->update(manager,e,*this);
        // changeSpeed(0,0);
