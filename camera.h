@@ -28,6 +28,7 @@ public:
     void renderAll(const std::vector<Creature*>& lst);
     void render(PositionComponent& p, SpriteComponent& s);
     glm::vec4 getRegion();
+    void update();
 };
 
 #endif // CAMERA_H_INCLUDED

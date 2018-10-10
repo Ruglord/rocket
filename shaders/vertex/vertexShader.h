@@ -10,11 +10,9 @@ out vec3 shade;
 
 void main()
 {
-    vec4 transformed = transform*vec4(1,1,1,1);
 
-     gl_Position = transform*vec4(values.xy,1,1);
+     gl_Position = transform*vec4(values.xy,0,1);
     texCoord = values.ba;
-
     shade = color;
 
 }

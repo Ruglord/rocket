@@ -47,6 +47,7 @@ void Game::everyTick(SDL_Event& e)
     input.update(e);
     player->update(input,e);
     renderer->render(*(player->position.get()),*(player->sprite.get()));
+    renderer->update();
 }
 glm::vec2 Game::ToWorldPosition(double x, double y)//given a point on the screen, convert it to a point on the world
 {

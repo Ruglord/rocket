@@ -23,7 +23,6 @@
     }
     void Camera::render(PositionComponent& p, SpriteComponent& s)
     {
-
             glm::vec4 coords = p.getRect();
             s.render(coords.x-region.x,coords.y-region.y, coords.z, coords.a);
     }
@@ -61,7 +60,11 @@
     }
     glm::vec4 RenderController::getRegion()
     {
-        camera.getRegion();
+        return camera.getRegion();
+    }
+    void RenderController::update()
+    {
+        camera.adjust();
     }
 
 

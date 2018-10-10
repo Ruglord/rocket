@@ -11,22 +11,21 @@
  {
         int x, y;
         SDL_GetMouseState(&x,&y);
+        glm::vec2 pos = Game::ToWorldPosition(x,y);
         glm::vec2 rect = r.position.get()->getCenter();
 
-        double angle = atan2(y-rect.y,rect.x-x);
-        //std::cout << angle << std::endl;
+        double angle = atan2(pos.y-rect.y,rect.x-pos.x) + M_PI;
         r.sprite.get()->changeAngle(angle);
 
     if (manager.mouseManager.findNumber(SDL_BUTTON_LEFT))
     {
-
-        //r.position.get()->moveTowards(x,y,r);
+       // r.position.get()->moveTowards(pos.x,pos.y,r);
     }
  }
     Rocket::Rocket(double x, double y) : Creature( ROCKET)
     {
         glm::vec2 dimen = Game::getDimentions();
-        position.get()->setRect(glm::vec4(x,y,150,100));
+        position.get()->setRect(glm::vec4(x,y,128,64));
         position.get()->speed = 1;
               sprite.reset(new SpriteComponent);
          sprite.get()->setSprite(rocket);
