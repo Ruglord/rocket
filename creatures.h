@@ -59,7 +59,7 @@ public:
 
 struct SchoolOfFishSprite : public CreatureSprite
 {
-    virtual void render(double x, double y, double w, double h);
+    virtual void render(RenderProgram& program,double x, double y, double w, double h);
 };
 
 struct SchoolOfFishAI : public AIComponent

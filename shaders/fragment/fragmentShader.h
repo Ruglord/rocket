@@ -9,5 +9,5 @@ uniform vec3 tint;
 void main()
 {
     vec4 text = texture(sprite,texCoord);
-    fragColor = vec4(text.xyz*tint,text.a);
+    fragColor = texture(sprite,texCoord);
 }

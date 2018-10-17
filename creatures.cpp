@@ -86,12 +86,12 @@ std::vector<Creature*> CreatureWorld::getNearestCreatures(double radius, Creatur
 
 void CreatureWorld::update(Camera& c)
 {
-    int size = creatures.size();
+   /* int size = creatures.size();
     for (int i = 0 ; i <size; i ++)
     {
         creatures[i]->getAI().AI(*creatures[i]);
         c.render(*creatures[i]->position.get(),*creatures[i]->sprite.get());
-    }
+    }*/
 }
 
 
@@ -105,7 +105,7 @@ SchoolOfFish::SchoolOfFish(double x, double y) : Creature( SCHOOLOFFISH)
     health.get()->health = 10;
 }
 
-void SchoolOfFishSprite::render(double x, double y, double w, double h)
+void SchoolOfFishSprite::render(RenderProgram& program,double x, double y, double w, double h)
 {
      Sprite* s = &(getSprite());
     std::vector<glm::vec3> points;

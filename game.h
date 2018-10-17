@@ -17,6 +17,7 @@ struct InputController
 };
 class Game
 {
+public:
    static Rocket* player;
    static int screenWidth;
    static int screenHeight;
@@ -29,6 +30,7 @@ public:
    static void init();
    static glm::vec2 getDimentions();
    static void everyTick(SDL_Event& e);
+   static void setDimensions();
 };
 
 #endif // GAME_H_INCLUDED

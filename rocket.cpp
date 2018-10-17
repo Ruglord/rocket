@@ -14,18 +14,18 @@
         glm::vec2 pos = Game::ToWorldPosition(x,y);
         glm::vec2 rect = r.position.get()->getCenter();
 
-        double angle = atan2(pos.y-rect.y,rect.x-pos.x) + M_PI;
+        double angle = atan2(-pos.y+rect.y,-pos.x+rect.x) + M_PI;
         r.sprite.get()->changeAngle(angle);
 
     if (manager.mouseManager.findNumber(SDL_BUTTON_LEFT))
     {
-       // r.position.get()->moveTowards(pos.x,pos.y,r);
+        r.position.get()->moveTowards(pos.x,pos.y,r);
     }
  }
     Rocket::Rocket(double x, double y) : Creature( ROCKET)
     {
         glm::vec2 dimen = Game::getDimentions();
-        position.get()->setRect(glm::vec4(x,y,128,64));
+        position.get()->setRect(glm::vec4(x,y,64,32));
         position.get()->speed = 1;
               sprite.reset(new SpriteComponent);
          sprite.get()->setSprite(rocket);

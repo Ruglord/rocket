@@ -44,7 +44,7 @@ const double gravity = .01;
     {
         angle = newAngle;
     }
-    void SpriteComponent::render(double x, double y,double w, double h)
+    void SpriteComponent::render(RenderProgram& program,double x, double y,double w, double h)
     {
         sprite->render(program,x,y,w,h,angle);
     }
@@ -63,9 +63,9 @@ const double gravity = .01;
     void Entity::update()
     {
         health.get()->updateDamaged();
-        glm::vec4 rect = position.get()->getRect();
-        std::cout << rect.x << " " << rect.y << std::endl;
-        sprite.get()->render(rect.x,rect.y,rect.w,rect.a);
+      //  glm::vec4 rect = position.get()->getRect();
+       // std::cout << rect.x << " " << rect.y << std::endl;
+      //  sprite.get()->render(rect.x,rect.y,rect.w,rect.a);
 
     }
     double Entity::getHealth()

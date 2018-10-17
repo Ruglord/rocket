@@ -21,27 +21,29 @@
         region.x =coords.x + coords.z/2 - region.z/2;
         region.y = coords.y + coords.a/2 - region.a/2;
     }
-    void Camera::render(PositionComponent& p, SpriteComponent& s)
+    void Camera::render(RenderProgram& program,PositionComponent& p, SpriteComponent& s)
     {
             glm::vec4 coords = p.getRect();
-            s.render(coords.x-region.x,coords.y-region.y, coords.z, coords.a);
+            s.render(program,coords.x-region.x,coords.y-region.y, coords.z, coords.a);
     }
-    void Camera::renderCenter()
+    void Camera::renderCenter(RenderProgram& program)
     {
-        render(*(center->position.get()),*(center->sprite.get()));
+        render(program,*(center->position.get()),*(center->sprite.get()));
     }
     glm::vec4 Camera::getRegion()
     {
         return region;
     }
 
-    RenderController::RenderController(int width, int height, Rocket& r)
+    RenderController::RenderController(std::string vertex, std::string fragment,int width, int height, Rocket& r)
     {
         camera.init(width,height,&r);
+        basic.init(vertex,fragment);
+        basic.setMatrix4fv("projection",glm::value_ptr(glm::ortho(0.0f, (float)width,(float)height, 0.0f, -1.0f, 1.0f)));
     }
     void RenderController::render(PositionComponent& p, SpriteComponent& s)
     {
-        camera.render(p,s);
+        camera.render(basic,p,s);
     }
     void RenderController::renderEntities(const std::vector<Creature*>& lst)
     {
@@ -50,13 +52,13 @@
         {
             Creature* current = lst[i];
             current->sprite.get()->getSprite().setTint({.5,.5,.5});
-            camera.render(*current->position.get(),*current->sprite.get());
+            camera.render(basic,*current->position.get(),*current->sprite.get());
         }
     }
     void RenderController::renderAll(const std::vector<Creature*>& lst)
     {
         renderEntities(lst);
-        camera.renderCenter();
+        camera.renderCenter(basic);
     }
     glm::vec4 RenderController::getRegion()
     {

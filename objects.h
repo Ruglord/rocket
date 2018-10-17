@@ -30,7 +30,7 @@ public:
     virtual Sprite& getSprite() const;
     virtual double getAngle() const;
     virtual void changeAngle(double newAngle);
-    virtual void render( double x, double y, double w, double h); // where to render
+    virtual void render( RenderProgram& program,double x, double y, double w, double h); // where to render
 };
 struct PositionComponent : public Component
 {

@@ -22,14 +22,18 @@ void InputController::update(SDL_Event& e)
     keyManager.getKeys(e);
     mouseManager.getMouse(e);
 }
-void Game::init()
+void Game::setDimensions()
 {
-    SDL_DisplayMode display;
+        SDL_DisplayMode display;
     SDL_GetCurrentDisplayMode(0,&display);
     screenWidth = display.w;
     screenHeight = display.h;
+}
+void Game::init()
+{
+    setDimensions();
     player = new Rocket(0,0);
-    renderer = new RenderController(screenWidth,screenHeight,*player);
+    renderer = new RenderController("shaders/vertex/vertexShader.h","shaders/fragment/fragmentShader.h",screenWidth,screenHeight,*player);
 }
 glm::vec2 Game::getDimentions()
 {
