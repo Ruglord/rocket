@@ -1,7 +1,17 @@
 #include "creatures.h"
 #include "image.h"
+#include "game.h"
 void AIComponent::AI(Creature& e) {
 
+
+}
+
+void ScanComponent::setScanning(bool value) //if value is true, start the scanning
+{
+    scanning = value;
+}
+void ScanComponent::update()
+{
 
 }
 
@@ -28,6 +38,19 @@ void CreatureSprite::changeAngle(double newAngle)
         sprite->flip();
     }
 }
+void CreatureSprite::incrementAngle(double target, double speed) //add target angle to the current angle. Speed is the rate at which the angle should be added
+{
+    double distance = target-angle;
+    if (abs(target-angle) < abs(target+2*M_PI-angle))
+    {
+        distance = target-angle;
+    }
+    else
+    {
+        distance = target+2*M_PI-angle;
+    }
+        changeAngle(angle+distance*std::min(speed,1.0));
+}
 
 void CreaturePosition::move(double x, double y, Creature& c)//moves creature in the direction x, y;
 {
@@ -38,6 +61,7 @@ void CreaturePosition::moveTowards(double x, double y, Creature& c) //moves the 
 {
     glm::vec4 hit = boundingRect;
     double radians = atan2(y-hit.y, x-hit.x );
+   // std::cout << radians << std::endl;
     double horizSpeed = speed*cos(radians);
     if (abs(x - hit.x) < abs(horizSpeed))
     {
@@ -48,8 +72,7 @@ void CreaturePosition::moveTowards(double x, double y, Creature& c) //moves the 
     {
         vertSpeed = y-hit.y;
     }
-
-    changeCoords(hit.x + horizSpeed, hit.y + vertSpeed);
+    changeCoords(hit.x + horizSpeed*Game::deltaTime, hit.y + vertSpeed*Game::deltaTime);
 
 }
 
@@ -76,12 +99,24 @@ std::vector<Creature*> CreatureWorld::getNearestCreatures(double radius, Creatur
     {
         Creature* current = creatures[i];
         glm::vec4 curCenter = current->position.get()->getRect();
-        if (vecIntersect(bigBox,curCenter))
+        if (vecIntersect(bigBox,curCenter) && current != &c)
         {
             lst.push_back(current);
         }
     }
+    if (&c != Game::player)
+    {
+        glm::vec4 curCenter=Game::player->position.get()->getRect();
+        if (vecIntersect(bigBox,curCenter))
+        {
+            lst.push_back(Game::player);
+        }
+    }
     return lst;
+}
+std::vector<Creature*> CreatureWorld::getCreatures()
+{
+    return creatures;
 }
 
 void CreatureWorld::update(Camera& c)
@@ -100,7 +135,7 @@ SchoolOfFish::SchoolOfFish(double x, double y) : Creature( SCHOOLOFFISH)
     sprite.reset(new SchoolOfFishSprite);
     sprite.get()->setSprite(fish);
     AI.reset(new SchoolOfFishAI);
-    position.get()->setRect(glm::vec4(x,y,32,16));
+    position.get()->setRect(glm::vec4(x,y,92,69));
     position.get()->speed = .5;
     health.get()->health = 10;
 }
@@ -112,47 +147,43 @@ void SchoolOfFishSprite::render(RenderProgram& program,double x, double y, doubl
     for (int i = 0; i < 16; i ++)
     {
         int sign = ((i%2 == 0)*(-2) + 1);
-        points.push_back(glm::vec3(x + (sign*(i%4)*20),y + 50*sin((x/5 + i*M_PI/4)/10),0));
+        points.push_back(glm::vec3(x + (sign*(i%4)*w/3),y + h/4*sin((x/5 + i*M_PI/4)/10),0));
     }
-    s->renderInstanced(program,points,w/2.0, h/2.0);
+    s->renderInstanced(program,points,w/12, h/12);
+ // s->render(program,x,y,w/2,h/2,0);
 }
 
-/*Shark::Shark( double x, double y, CreatureWorld& World) : Creature(x,y,256,128,shark,20,World, SHARK)
+Shark::Shark( double x, double y) : Creature(SHARK)
 {
-
+  sprite.reset(new CreatureSprite);
+    sprite.get()->setSprite(sharkSprite);
+    AI.reset(new SharkAI);
+    position.get()->setRect(glm::vec4(x,y,256,128));
+    position.get()->speed = .5;
+    health.get()->health = 20;
+    scan.reset(new ScanComponent);
 }
 
-void Shark::AI()
+void SharkAI::AI(Creature& shark)
 {
-      glm::vec4 vec = getHitbox();
-    std::vector<Creature*> lst = (world->getNearestCreatures(100,*this));
+
+      glm::vec4 vec = shark.position.get()->getRect();
+    std::vector<Creature*> lst = (Game::world.getNearestCreatures(100,shark));
     int size = lst.size();
-    glm::vec2 target(vec.x + speed,0);
+    glm::vec2 target(vec.x +vec.z+ shark.position.get()->speed,vec.y);
     for (int i = 0; i < size; i ++)
     {
         if (lst[i]->getID()== ROCKET)
         {
-            glm::vec4 hitbox = lst[i]->getHitbox();
-                if (!vecIntersect(vec,hitbox))
-                {
-                target = glm::vec2(hitbox.x,hitbox.y);
-                }
-                else
-                {
-                     lst[i]->takeDamage(10);
-                    target = glm::vec2(vec.x,vec.y);
-                    return;
-                }
+            glm::vec4 hitbox = lst[i]->position.get()->getRect();
+             //   if (!vecIntersect(vec,hitbox))
+                    target = glm::vec2(hitbox.x,hitbox.y);
+
                 break;
         }
     }
-
-    move(target.x, target.y);
-    double radians = (atan2(vec.y - target.y , target.x - vec.x));
-    double current = getAngle();
-    double distance = radians - current;
-    double loop = distance + ((radians<current)*2-1)*2*M_PI;
-    bool bigger = (abs(distance) < abs(loop));
+    shark.position.get()->moveTowards(target.x, target.y,shark);
+    ((CreatureSprite*)(shark.sprite.get()))->incrementAngle(atan2(target.y-(vec.y),target.x-(vec.x+vec.z*.75)),.01);
     //std::cout << loop << " " << distance << std::endl;
-    changeAngle(current + .01*(distance*bigger + loop*!bigger));
-}*/
+ //   changeAngle(current + .01*(distance*bigger + loop*!bigger));
+}

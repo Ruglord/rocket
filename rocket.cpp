@@ -16,21 +16,30 @@
 
         double angle = atan2(-pos.y+rect.y,-pos.x+rect.x) + M_PI;
         r.sprite.get()->changeAngle(angle);
-
-    if (manager.mouseManager.findNumber(SDL_BUTTON_LEFT))
+    if (manager.mouseManager.findNumber(SDL_BUTTON_RIGHT) != -1)
     {
         r.position.get()->moveTowards(pos.x,pos.y,r);
+        //std::cout << pos.x << std::endl;
+    }
+    if (manager.mouseManager.findNumber(SDL_BUTTON_LEFT) != -1)
+    {
+        Creature* found =Game::findCreaturePosition(pos.x,pos.y);
+        if ( found != nullptr)
+        {
+            found->scan.get()->setScanning(true);
+        }
     }
  }
     Rocket::Rocket(double x, double y) : Creature( ROCKET)
     {
         glm::vec2 dimen = Game::getDimentions();
         position.get()->setRect(glm::vec4(x,y,64,32));
-        position.get()->speed = 1;
-              sprite.reset(new SpriteComponent);
+        position.get()->speed = 1.5;
+        sprite.reset(new SpriteComponent);
          sprite.get()->setSprite(rocket);
          input.reset(new RocketInput);
     health.get()->health = 20;
+    scan.reset(new ScanComponent);
     }
     void Rocket::changeSpeed(double horiz, double vert) //increases speed by horiz and vert
     {
@@ -46,4 +55,5 @@
     {
         input.get()->update(manager,e,*this);
        // changeSpeed(0,0);
+       //sprite.get()->changeAngle(SDL_GetTicks()%(6));
     }

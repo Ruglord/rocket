@@ -4,7 +4,7 @@
 extern Sprite rocket;
 extern Sprite box;
 extern Sprite fish;
-extern Sprite shark;
+extern Sprite sharkSprite;
 
 void loadSprites(int stanW, int stanH);
 

@@ -17,13 +17,15 @@ struct InputController
 };
 class Game
 {
+    static const double perMilSecond; //how many times per millisecond something happens. Used in deltaTime calculation
+    static double currentTime;
 public:
+    static double deltaTime;
    static Rocket* player;
    static int screenWidth;
    static int screenHeight;
    static RenderController* renderer;
    static InputController input;
-public:
     static CreatureWorld world;
    static glm::vec2 ToWorldPosition(double x, double y); //converts the on-screen position to world position
    static glm::vec2 ToScreenPosition(double x, double y); //given a point in the world, convert it to a point on the screen
@@ -31,6 +33,7 @@ public:
    static glm::vec2 getDimentions();
    static void everyTick(SDL_Event& e);
    static void setDimensions();
+   static Creature* findCreaturePosition(double x, double y); //given coords x and y, finds a creature that intersects with that coordinate.
 };
 
 #endif // GAME_H_INCLUDED

@@ -1,6 +1,7 @@
 #include "camera.h"
 #include "creatures.h"
 #include "rocket.h"
+#include "image.h"
     Camera::Camera(int w, int h, Rocket* r)
     {
        init(w,h,r);
@@ -24,7 +25,9 @@
     void Camera::render(RenderProgram& program,PositionComponent& p, SpriteComponent& s)
     {
             glm::vec4 coords = p.getRect();
+            //std::cout << coords.x-region.x << std::endl;
             s.render(program,coords.x-region.x,coords.y-region.y, coords.z, coords.a);
+          //  box.render(program,320,320,64,64,0);
     }
     void Camera::renderCenter(RenderProgram& program)
     {
@@ -39,11 +42,20 @@
     {
         camera.init(width,height,&r);
         basic.init(vertex,fragment);
+        scanning.init(vertex,"shaders/fragment/paintShader.h");
+        scanning.setMatrix4fv("projection",glm::value_ptr(glm::ortho(0.0f, (float)width,(float)height, 0.0f, -1.0f, 1.0f)));
         basic.setMatrix4fv("projection",glm::value_ptr(glm::ortho(0.0f, (float)width,(float)height, 0.0f, -1.0f, 1.0f)));
     }
-    void RenderController::render(PositionComponent& p, SpriteComponent& s)
+    void RenderController::render(Creature& creature)
     {
-        camera.render(basic,p,s);
+        RenderProgram* program = &basic;
+        if (creature.scan.get()->scanning)
+        {
+            program = &scanning;
+            scanning.setVec3fv("shade",{(SDL_GetTicks()%1000)/1000.0,0,0});
+            creature.scan.get()->setScanning(false);
+        }
+        camera.render(*program,*(creature.position.get()),*(creature.sprite.get()));
     }
     void RenderController::renderEntities(const std::vector<Creature*>& lst)
     {

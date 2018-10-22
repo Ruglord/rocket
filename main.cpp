@@ -18,6 +18,9 @@
 #include "rocket.h"
 #include "camera.h"
 #include "game.h"
+double Game::currentTime = 0;
+double Game::deltaTime = 0;
+const double Game::perMilSecond = 5;
 int Game::screenWidth = 0;
 int Game::screenHeight = 0;
 RenderController* Game::renderer;
@@ -64,16 +67,20 @@ glLinkProgram(wordProgram);
 glDeleteShader(wordFragment);
 glDeleteShader(wordVertex);
 
+RenderProgram testProgram("shaders/vertex/vertexShader.h","shaders/fragment/fragmentShader.h");
+        testProgram.setMatrix4fv("projection",glm::value_ptr(glm::ortho(0.0f, (float)dimen.x,(float)dimen.y, 0.0f, -1.0f, 1.0f)));
 Sprite box(dimen.x,dimen.y,"sprites/circle.png",true);
 Font alef("alef.ttf",dimen.x,dimen.y);
 
 srand(time(NULL));
 
 
-SchoolOfFish f(0,0);
+Shark shark(-100,0);
 CreatureWorld* world = &Game::world;
-world->addCreature(f);
+world->addCreature(shark);
 
+Sprite background;
+background.init(dimen.x,dimen.y,"sprites/cloudBackground.png",false);
 
 //rocket.mirror();
 //box.mirror();
@@ -93,15 +100,15 @@ while(quit == false)
     glClear(GL_COLOR_BUFFER_BIT);
     double height = 0;
     glClearColor(0,(.7-height/10000),1-height/10000,1);
-
+  //  box.render(testProgram,0,0,640,640,0);
     Game::everyTick(e);
 //    alef.write(wordProgram,"Health: " + convert(r.health.get()->getHealth()),0,0,1,{0,0,0});
-    //box.render(program,160,160,64,64,angle);
+    //box.render(program,0,0,64,64,angle);
    // angle += .001;
     SDL_GL_SwapWindow(window);
 //std::cout << SDL_GetTicks() << std::endl;
     //alef.write(wordProgram,"FPS: " + convert(fps),0,0,1,{0,0,0});
-    std::cout << SDL_GetTicks() - fps<< std::endl;
+   // std::cout << SDL_GetTicks() - fps<< std::endl;
 SDL_Delay(1);
 }
 
