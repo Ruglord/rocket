@@ -21,13 +21,14 @@ public:
 class Creature;
 class RenderController
 {
-    RenderProgram basic;
-    RenderProgram scanning;
+
     Camera camera;
     void renderEntities(const std::vector<Creature*>& lst);
 public:
+    static RenderProgram basic;
+    static RenderProgram scanning;
     RenderController(std::string vertex, std::string fragment,int width, int height, Rocket& r);
-    void renderAll(const std::vector<Creature*>& lst);
+    void render(SpriteComponent& sprite, PositionComponent& position);
     void render(Creature& creature);
     glm::vec4 getRegion();
     void update();

@@ -10,9 +10,14 @@ void ScanComponent::setScanning(bool value) //if value is true, start the scanni
 {
     scanning = value;
 }
-void ScanComponent::update()
+void ScanComponent::update(SpriteComponent* sprite)
 {
-
+    if (scanning)
+    {
+        sprite->request = &RenderController::scanning;
+        sprite->request->setVec3fv("shade",{abs(sin(SDL_GetTicks()/100.0)),abs(sin(SDL_GetTicks()/1000.0)),abs(sin(SDL_GetTicks()))});
+        scanning = false;
+    }
 }
 
 Creature::Creature(int ID) : IDed(ID)

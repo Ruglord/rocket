@@ -25,7 +25,9 @@ class SpriteComponent : public Component
 protected:
     Sprite* sprite = nullptr;
     double angle = 0;
+    glm::vec3 tint = {0,0,0};
 public:
+    RenderProgram* request = nullptr;
     void setSprite(Sprite& s);
     virtual Sprite& getSprite() const;
     virtual double getAngle() const;

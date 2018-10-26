@@ -1,5 +1,6 @@
 #include "game.h"
 #include "render.h"
+#include "image.h"
 void MouseManager::getMouse(SDL_Event& e)
 {
     if (e.type == SDL_MOUSEBUTTONDOWN)
@@ -51,7 +52,15 @@ void Game::everyTick(SDL_Event& e)
         current->update();
         renderer->render(*current);
     }
+
     input.update(e);
+    if (input.keyManager.findNumber(SDLK_ESCAPE) != -1)
+    {
+        Window window;
+        window.background.reset(new SpriteComponent);
+        window.background.get()->setSprite(box);
+        window.render();
+    }
     player->update(input,e);
     renderer->render(*player);
     renderer->update();

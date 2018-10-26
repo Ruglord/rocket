@@ -18,8 +18,11 @@
 #include "rocket.h"
 #include "camera.h"
 #include "game.h"
+RenderProgram RenderController::basic;
+RenderProgram RenderController::scanning;
 double Game::currentTime = 0;
 double Game::deltaTime = 0;
+Interface Game::interface;
 const double Game::perMilSecond = 5;
 int Game::screenWidth = 0;
 int Game::screenHeight = 0;
@@ -37,7 +40,6 @@ SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 3 );
 SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,SDL_GL_CONTEXT_PROFILE_CORE);
 
 //GLuint p = glCreateProgram();
-
 Game::setDimensions();
 glm::vec2 dimen = Game::getDimentions();
 

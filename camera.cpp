@@ -48,14 +48,16 @@
     }
     void RenderController::render(Creature& creature)
     {
-        RenderProgram* program = &basic;
-        if (creature.scan.get()->scanning)
+        render(*(creature.sprite.get()),*(creature.position.get()));
+    }
+    void RenderController::render(SpriteComponent& sprite, PositionComponent& position)
+    {
+        if (sprite.request == nullptr)
         {
-            program = &scanning;
-            scanning.setVec3fv("shade",{(SDL_GetTicks()%1000)/1000.0,0,0});
-            creature.scan.get()->setScanning(false);
+            sprite.request = &basic;
         }
-        camera.render(*program,*(creature.position.get()),*(creature.sprite.get()));
+        camera.render(*sprite.request,position,sprite);
+        sprite.request = &basic;
     }
     void RenderController::renderEntities(const std::vector<Creature*>& lst)
     {
@@ -67,11 +69,7 @@
             camera.render(basic,*current->position.get(),*current->sprite.get());
         }
     }
-    void RenderController::renderAll(const std::vector<Creature*>& lst)
-    {
-        renderEntities(lst);
-        camera.renderCenter(basic);
-    }
+
     glm::vec4 RenderController::getRegion()
     {
         return camera.getRegion();

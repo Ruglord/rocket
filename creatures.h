@@ -14,7 +14,7 @@ struct AIComponent : public Component
 struct ScanComponent : public Component
 {
     bool scanning = false;
-    void update();
+    void update(SpriteComponent* sprite);
     void setScanning(bool value); //if value is true, start the scanning
 
 
@@ -48,7 +48,7 @@ public:
         health.get()->updateDamaged();
         glm::vec4 rect = position.get()->getRect();
         AI.get()->AI(*this);
-//        scan.get()->update();
+        scan.get()->update(sprite.get());
         //sprite.get()->render(rect.x,rect.y,rect.w,rect.a);
     }
 };
