@@ -47,6 +47,8 @@ const double gravity = .01;
     void SpriteComponent::render(RenderProgram& program,double x, double y,double w, double h)
     {
         sprite->render(program,x,y,w,h,angle);
+      //  std::vector<SpriteParameter> vec = {{{x,y, w,h}, angle,{1,1,1},{0,0,.5,1}},{{x,y,w,h},angle}};
+        //sprite->renderInstanced(program,vec);
     }
     Thing::Thing()
     {
