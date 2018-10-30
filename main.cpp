@@ -18,8 +18,10 @@
 #include "rocket.h"
 #include "camera.h"
 #include "game.h"
+bool Game::paused = false;
 RenderProgram RenderController::basic;
 RenderProgram RenderController::scanning;
+RenderProgram RenderController::wordProgram;
 double Game::currentTime = 0;
 double Game::deltaTime = 0;
 Interface Game::interface;
@@ -71,8 +73,6 @@ glDeleteShader(wordVertex);
 
 RenderProgram testProgram("shaders/vertex/vertexShader.h","shaders/fragment/fragmentShader.h");
         testProgram.setMatrix4fv("projection",glm::value_ptr(glm::ortho(0.0f, (float)dimen.x,(float)dimen.y, 0.0f, -1.0f, 1.0f)));
-Sprite box(dimen.x,dimen.y,"sprites/circle.png",true);
-Font alef("alef.ttf",dimen.x,dimen.y);
 
 srand(time(NULL));
 
@@ -83,6 +83,7 @@ world->addCreature(shark);
 
 Sprite background;
 background.init(dimen.x,dimen.y,"sprites/cloudBackground.png",false);
+
 
 //rocket.mirror();
 //box.mirror();
@@ -104,7 +105,7 @@ while(quit == false)
     glClearColor(0,(.7-height/10000),1-height/10000,1);
   //  box.render(testProgram,0,0,640,640,0);
     Game::everyTick(e);
-//    alef.write(wordProgram,"Health: " + convert(r.health.get()->getHealth()),0,0,1,{0,0,0});
+
     //box.render(program,0,0,64,64,angle);
    // angle += .001;
     SDL_GL_SwapWindow(window);

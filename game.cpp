@@ -10,11 +10,7 @@ void MouseManager::getMouse(SDL_Event& e)
     }
     else if (e.type == SDL_MOUSEBUTTONUP)
     {
-        int index = findNumber(e.button.button);
-        if (index != -1)
-        {
-            numbers.erase(numbers.begin() + findNumber(SDL_MOUSEBUTTONUP));
-        }
+        removeNumber(e.button.button);
     }
 
 }
@@ -38,6 +34,7 @@ void Game::init()
     setDimensions();
     player = new Rocket(0,0);
     renderer = new RenderController("shaders/vertex/vertexShader.h","shaders/fragment/fragmentShader.h",screenWidth,screenHeight,*player);
+    interface.init();
 }
 glm::vec2 Game::getDimentions()
 {
@@ -45,25 +42,30 @@ glm::vec2 Game::getDimentions()
 }
 void Game::everyTick(SDL_Event& e)
 {
-    std::vector<Creature*> creatures = world.getNearestCreatures(std::max(screenHeight,screenWidth), *player);
-    for (int i = 0; i < creatures.size();i ++)
+    if (!paused)
     {
-        Creature* current = creatures[i];
-        current->update();
-        renderer->render(*current);
+        std::vector<Creature*> creatures = world.getNearestCreatures(std::max(screenHeight,screenWidth), *player);
+        for (int i = 0; i < creatures.size();i ++)
+        {
+            Creature* current = creatures[i];
+            current->update();
+            renderer->render(*current);
+        }
+        player->update(input,e);
+        renderer->render(*player);
+        renderer->update();
     }
-
+    if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE && input.keyManager.getLatest() != SDLK_ESCAPE)
+    {
+        paused = !paused;
+    }
+    if (paused)
+    {
+        interface.current = &interface.quit;
+        interface.render();
+    }
     input.update(e);
-    if (input.keyManager.findNumber(SDLK_ESCAPE) != -1)
-    {
-        Window window;
-        window.background.reset(new SpriteComponent);
-        window.background.get()->setSprite(box);
-        window.render();
-    }
-    player->update(input,e);
-    renderer->render(*player);
-    renderer->update();
+    interface.update();
     double current = SDL_GetTicks();
     deltaTime = (current - currentTime)/Game::perMilSecond;
     currentTime = current;

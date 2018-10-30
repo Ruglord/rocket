@@ -47,6 +47,7 @@
 		</Linker>
 		<Unit filename="../../resources/FreeTypeHelper.cpp" />
 		<Unit filename="../../resources/FreeTypeHelper.h" />
+		<Unit filename="../../resources/SDLhelper.cpp" />
 		<Unit filename="../../resources/SDLhelper.h" />
 		<Unit filename="../../resources/glewHelper.cpp" />
 		<Unit filename="../../resources/render.cpp" />
@@ -55,6 +56,7 @@
 		<Unit filename="../../resources/sparkles.h" />
 		<Unit filename="../../resources/stb_image.h" />
 		<Unit filename="../../resources/vanilla.cpp" />
+		<Unit filename="../../resources/vanilla.h" />
 		<Unit filename="camera.cpp" />
 		<Unit filename="camera.h" />
 		<Unit filename="creatures.cpp" />

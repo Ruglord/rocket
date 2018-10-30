@@ -9,6 +9,7 @@ class MouseManager : public NumberManager
 public:
     void getMouse(SDL_Event& e);
 
+
 };
 struct InputController
 {
@@ -30,7 +31,7 @@ public:
     static InputController input;
     static CreatureWorld world;
     static Interface interface;
-
+    static bool paused;
     static glm::vec2 ToWorldPosition(double x, double y); //converts the on-screen position to world position
     static glm::vec2 ToScreenPosition(double x, double y); //given a point in the world, convert it to a point on the screen
     static void init();

@@ -27,6 +27,7 @@ class RenderController
 public:
     static RenderProgram basic;
     static RenderProgram scanning;
+    static RenderProgram wordProgram;
     RenderController(std::string vertex, std::string fragment,int width, int height, Rocket& r);
     void render(SpriteComponent& sprite, PositionComponent& position);
     void render(Creature& creature);

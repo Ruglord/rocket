@@ -15,11 +15,12 @@ struct WindowComponent
 
 struct Button : public WindowComponent
 {
-    std::unique_ptr<SpriteComponent> background;
+    Rect rect;
+    std::unique_ptr<SpriteComponent> sprite;
     std::unique_ptr<PositionComponent> position;
     std::string label = "";
     Font* font;
-    Button();
+    Button(double x, double y, int w, int h);
     virtual void pressed();
     virtual void render(RenderProgram& program);
 };
@@ -28,15 +29,17 @@ struct QuitButton : public Button
 {
     bool hover = false;
     void pressed();
-    QuitButton();
+    QuitButton(double x, double y);
 };
 
 struct Window
 {
     std::unique_ptr<SpriteComponent> background;
     std::unique_ptr<PositionComponent> position;
+    std::vector<Button*> buttons;
     Window();
     void render();
+    ~Window();
 };
 
 struct Quit : public Window
@@ -48,8 +51,11 @@ struct Quit : public Window
 struct Interface
 {
     Window* current = nullptr;
+    Window quit;
     Interface();
-    void render(RenderController& controller);
+    void render();
+    void init();
+    void update();
 };
 
 #endif // INTERFACE_H_INCLUDED

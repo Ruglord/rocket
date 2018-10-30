@@ -67,6 +67,7 @@ public:
     std::vector<Creature*> getNearestCreatures(double radius, Creature& c);
     std::vector<Creature*> getCreatures();
     void update(Camera& c);
+    ~CreatureWorld();
 };
 
 struct SchoolOfFishSprite : public CreatureSprite

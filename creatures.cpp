@@ -22,7 +22,7 @@ void ScanComponent::update(SpriteComponent* sprite)
 
 Creature::Creature(int ID) : IDed(ID)
 {
-            position.reset(new CreaturePosition);
+        position.reset(new CreaturePosition);
         sprite.reset(new CreatureSprite);
         health.reset(new HealthComponent);
         AI.reset(new AIComponent);
@@ -134,6 +134,12 @@ void CreatureWorld::update(Camera& c)
     }*/
 }
 
+CreatureWorld::~CreatureWorld()
+{
+    creatures.clear();
+    nearestCreatures.clear();
+}
+
 
 SchoolOfFish::SchoolOfFish(double x, double y) : Creature( SCHOOLOFFISH)
 {
@@ -148,13 +154,13 @@ SchoolOfFish::SchoolOfFish(double x, double y) : Creature( SCHOOLOFFISH)
 void SchoolOfFishSprite::render(RenderProgram& program,double x, double y, double w, double h)
 {
      Sprite* s = &(getSprite());
-    std::vector<glm::vec3> points;
+    std::vector<SpriteParameter> points;
     for (int i = 0; i < 16; i ++)
     {
         int sign = ((i%2 == 0)*(-2) + 1);
-        points.push_back(glm::vec3(x + (sign*(i%4)*w/3),y + h/4*sin((x/5 + i*M_PI/4)/10),0));
+        points.push_back({{x + (sign*(i%4)*w/3),y + h/4*sin((x/5 + i*M_PI/4)/10),w/12,h/12}});
     }
-    s->renderInstanced(program,points,w/12, h/12);
+    s->renderInstanced(program,points);
  // s->render(program,x,y,w/2,h/2,0);
 }
 

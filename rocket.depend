@@ -3,7 +3,7 @@
 
 1536544657 c:\users\leoou\onedrive\desktop\projects\rocket\sprites.h
 
-1540351465 source:c:\users\leoou\onedrive\desktop\projects\rocket\main.cpp
+1540945394 source:c:\users\leoou\onedrive\desktop\projects\rocket\main.cpp
 	<iostream>
 	<SDL.h>
 	<glew.h>
@@ -900,7 +900,7 @@
 1525699382 c:\users\leoou\onedrive\desktop\glm\glm\gtc\type_ptr.inl
 	<cstring>
 
-1540576108 c:\users\leoou\onedrive\desktop\resources\render.h
+1540824786 c:\users\leoou\onedrive\desktop\resources\render.h
 	<iostream>
 	<vector>
 	"glew.h"
@@ -920,13 +920,14 @@
 	<SDLhelper.h>
 	<vanilla.h>
 
-1540140869 source:c:\users\leoou\onedrive\desktop\projects\rocket\image.cpp
+1540943801 source:c:\users\leoou\onedrive\desktop\projects\rocket\image.cpp
 	<render.h>
 	"image.h"
 
-1540140873 c:\users\leoou\onedrive\desktop\projects\rocket\image.h
+1540675724 c:\users\leoou\onedrive\desktop\projects\rocket\image.h
+	"FreeTypeHelper.h"
 
-1540582040 source:c:\users\leoou\onedrive\desktop\resources\render.cpp
+1540931196 source:c:\users\leoou\onedrive\desktop\resources\render.cpp
 	<sstream>
 	<fstream>
 	"stb_image.h"
@@ -952,39 +953,41 @@
 1536717209 source:c:\users\leoou\onedrive\desktop\projects\rocket\sparkles.cpp
 	"sparkles.h"
 
-1540582276 source:c:\users\leoou\onedrive\desktop\projects\rocket\objects.cpp
+1540582728 source:c:\users\leoou\onedrive\desktop\projects\rocket\objects.cpp
 	<glm.hpp>
 	<gtc/matrix_transform.hpp>
 	<gtc/type_ptr.hpp>
 	"objects.h"
 	"image.h"
 
-1539801154 source:c:\users\leoou\onedrive\desktop\resources\sparkles.cpp
+1540582584 source:c:\users\leoou\onedrive\desktop\resources\sparkles.cpp
 	"sparkles.h"
 
-1540348878 c:\users\leoou\onedrive\desktop\projects\rocket\camera.h
+1540675939 c:\users\leoou\onedrive\desktop\projects\rocket\camera.h
 	"objects.h"
 	<glm.hpp>
 
-1540580006 source:c:\users\leoou\onedrive\desktop\projects\rocket\camera.cpp
+1540931003 source:c:\users\leoou\onedrive\desktop\projects\rocket\camera.cpp
 	"camera.h"
 	"creatures.h"
 	"rocket.h"
 	"image.h"
 
-1540173754 c:\users\leoou\onedrive\desktop\resources\sdlhelper.h
+1540945607 c:\users\leoou\onedrive\desktop\resources\sdlhelper.h
+	"SDL.h"
+	"vanilla.h"
 
-1540348959 source:c:\users\leoou\onedrive\desktop\projects\rocket\creatures.cpp
+1540610596 source:c:\users\leoou\onedrive\desktop\projects\rocket\creatures.cpp
 	"creatures.h"
 	"image.h"
 	"game.h"
 
-1540348994 c:\users\leoou\onedrive\desktop\projects\rocket\creatures.h
+1540610204 c:\users\leoou\onedrive\desktop\projects\rocket\creatures.h
 	<vector>
 	"objects.h"
 	"camera.h"
 
-1538443088 c:\users\leoou\onedrive\desktop\resources\vanilla.h
+1540672027 c:\users\leoou\onedrive\desktop\resources\vanilla.h
 	<iostream>
 	<tuple>
 	<math.h>
@@ -994,7 +997,7 @@
 	<stdlib.h>
 	<memory>
 
-1540236917 source:c:\users\leoou\onedrive\desktop\resources\vanilla.cpp
+1540672182 source:c:\users\leoou\onedrive\desktop\resources\vanilla.cpp
 	"vanilla.h"
 
 1540255331 source:c:\users\leoou\onedrive\desktop\projects\rocket\rocket.cpp
@@ -1002,7 +1005,7 @@
 	"image.h"
 	"game.h"
 
-1540493797 c:\users\leoou\onedrive\desktop\resources\freetypehelper.h
+1540912042 c:\users\leoou\onedrive\desktop\resources\freetypehelper.h
 	"glew.h"
 	"glm.hpp"
 	"gtc/matrix_transform.hpp"
@@ -1015,31 +1018,35 @@
 
 1524393696 c:\users\leoou\onedrive\desktop\freetype-2.9.1\include\freetype\config\ftheader.h
 
-1540493831 source:c:\users\leoou\onedrive\desktop\resources\freetypehelper.cpp
+1540945213 source:c:\users\leoou\onedrive\desktop\resources\freetypehelper.cpp
 	<iostream>
 	<ft2build.h>
 	"FreeTypeHelper.h"
 
 1538450871 source:c:\users\leoou\onedrive\desktop\resources\glewhelper.cpp
 
-1540358040 c:\users\leoou\onedrive\desktop\projects\rocket\game.h
+1540945339 c:\users\leoou\onedrive\desktop\projects\rocket\game.h
 	"rocket.h"
 	"camera.h"
 	"interface.h"
 	<glm.hpp>
 
-1540567196 source:c:\users\leoou\onedrive\desktop\projects\rocket\game.cpp
+1540946587 source:c:\users\leoou\onedrive\desktop\projects\rocket\game.cpp
 	"game.h"
 	"render.h"
 	"image.h"
 
-1540561481 source:c:\users\leoou\onedrive\desktop\projects\rocket\interface.cpp
+1540946668 source:c:\users\leoou\onedrive\desktop\projects\rocket\interface.cpp
 	"interface.h"
 	"game.h"
+	"image.h"
 
-1540493930 c:\users\leoou\onedrive\desktop\projects\rocket\interface.h
+1540946223 c:\users\leoou\onedrive\desktop\projects\rocket\interface.h
 	<memory.h>
 	"FreeTypeHelper.h"
 	"objects.h"
 	"camera.h"
+
+1540672134 source:c:\users\leoou\onedrive\desktop\resources\sdlhelper.cpp
+	"SDLhelper.h"
 

@@ -27,7 +27,7 @@
             glm::vec4 coords = p.getRect();
             //std::cout << coords.x-region.x << std::endl;
             s.render(program,coords.x-region.x,coords.y-region.y, coords.z, coords.a);
-          //  box.render(program,320,320,64,64,0);
+            //box.renderInstanced(program,{{{0,0,64,64},0}});
     }
     void Camera::renderCenter(RenderProgram& program)
     {
@@ -43,8 +43,11 @@
         camera.init(width,height,&r);
         basic.init(vertex,fragment);
         scanning.init(vertex,"shaders/fragment/paintShader.h");
-        scanning.setMatrix4fv("projection",glm::value_ptr(glm::ortho(0.0f, (float)width,(float)height, 0.0f, -1.0f, 1.0f)));
-        basic.setMatrix4fv("projection",glm::value_ptr(glm::ortho(0.0f, (float)width,(float)height, 0.0f, -1.0f, 1.0f)));
+        const float* mat = glm::value_ptr(glm::ortho(0.0f, (float)width,(float)height, 0.0f, -1.0f, 1.0f));
+        scanning.setMatrix4fv("projection",mat);
+        basic.setMatrix4fv("projection",mat);
+        wordProgram.init("shaders/vertex/wordVertex.h","shaders/fragment/wordFragment.h");
+        wordProgram.setMatrix4fv("projection",glm::value_ptr(glm::ortho(0.0f, (float)width,0.0f,(float)height)));
     }
     void RenderController::render(Creature& creature)
     {
