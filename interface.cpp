@@ -64,7 +64,7 @@ Interface::Interface()
 
 void Interface::update()
 {
-    if (Game::input.mouseManager.findNumber(SDL_BUTTON_LEFT) != -1)
+    if (Game::input.mouseManager.findNumber(SDL_BUTTON_LEFT) != -1 && current != nullptr)
     {
         int x, y;
         SDL_GetMouseState(&x,&y);

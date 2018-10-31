@@ -982,8 +982,9 @@
 	"image.h"
 	"game.h"
 
-1540610204 c:\users\leoou\onedrive\desktop\projects\rocket\creatures.h
+1540997871 c:\users\leoou\onedrive\desktop\projects\rocket\creatures.h
 	<vector>
+	<map>
 	"objects.h"
 	"camera.h"
 
@@ -1036,7 +1037,7 @@
 	"render.h"
 	"image.h"
 
-1540946668 source:c:\users\leoou\onedrive\desktop\projects\rocket\interface.cpp
+1540946968 source:c:\users\leoou\onedrive\desktop\projects\rocket\interface.cpp
 	"interface.h"
 	"game.h"
 	"image.h"

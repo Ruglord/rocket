@@ -12,11 +12,12 @@ void ScanComponent::setScanning(bool value) //if value is true, start the scanni
 }
 void ScanComponent::update(SpriteComponent* sprite)
 {
-    if (scanning)
+    if (scanning && scanTime > 0 )
     {
         sprite->request = &RenderController::scanning;
         sprite->request->setVec3fv("shade",{abs(sin(SDL_GetTicks()/100.0)),abs(sin(SDL_GetTicks()/1000.0)),abs(sin(SDL_GetTicks()))});
         scanning = false;
+        scanTime -= Game::deltaTime;
     }
 }
 
@@ -173,6 +174,7 @@ Shark::Shark( double x, double y) : Creature(SHARK)
     position.get()->speed = .5;
     health.get()->health = 20;
     scan.reset(new ScanComponent);
+    scan.get()->scanTime = 2000;
 }
 
 void SharkAI::AI(Creature& shark)

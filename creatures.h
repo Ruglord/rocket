@@ -1,6 +1,7 @@
 #ifndef CREATURES_H_INCLUDED
 #define CREATURES_H_INCLUDED
 #include <vector>
+#include <map>
 #include "objects.h"
 #include "camera.h"
 
@@ -16,7 +17,7 @@ struct ScanComponent : public Component
     bool scanning = false;
     void update(SpriteComponent* sprite);
     void setScanning(bool value); //if value is true, start the scanning
-
+    int scanTime = 0;
 
 };
 struct CreatureSprite : public SpriteComponent
