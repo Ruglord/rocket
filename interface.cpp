@@ -85,9 +85,14 @@ void Interface::init()
     quit.background.get()->setSprite(frame);
     quit.position.reset(new PositionComponent);
     quit.buttons.push_back(new QuitButton(100,100));
+
+    log.background.reset(new SpriteComponent);
+    log.background.get()->setSprite(frame);
+    log.position.reset(new PositionComponent);
 }
 
 void Interface::render()
 {
+    if (current)
     current->render();
 }

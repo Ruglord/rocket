@@ -7,6 +7,9 @@
  {
 
  }
+
+
+
  void RocketInput::update(InputController& manager, SDL_Event& e, Rocket& r)
  {
         int x, y;
@@ -32,14 +35,15 @@
  }
     Rocket::Rocket(double x, double y) : Creature( ROCKET)
     {
-        glm::vec2 dimen = Game::getDimentions();
+
         position.get()->setRect(glm::vec4(x,y,64,32));
-        position.get()->speed = 1.5;
+        position.get()->setSpeed(1.5);
         sprite.reset(new SpriteComponent);
          sprite.get()->setSprite(rocket);
          input.reset(new RocketInput);
     health.get()->health = 20;
     scan.reset(new ScanComponent);
+    traits[0] = new speedUp;
     }
     void Rocket::changeSpeed(double horiz, double vert) //increases speed by horiz and vert
     {
@@ -54,6 +58,7 @@
     void Rocket::update(InputController& manager, SDL_Event& e) //pressed = true if key was pressed false if released
     {
         input.get()->update(manager,e,*this);
+     //   traits[0]->ability(*this);
        // changeSpeed(0,0);
        //sprite.get()->changeAngle(SDL_GetTicks()%(6));
     }

@@ -24,8 +24,8 @@ void Game::setDimensions()
 {
         SDL_DisplayMode display;
     SDL_GetCurrentDisplayMode(0,&display);
-    screenWidth = 640;//display.w;
-    screenHeight = 640;//display.h;
+    screenWidth = display.w;
+    screenHeight = display.h;
 }
 void Game::init()
 {
@@ -42,6 +42,7 @@ glm::vec2 Game::getDimentions()
 }
 void Game::everyTick(SDL_Event& e)
 {
+    bool paused = interface.current == &interface.quit;
     if (!paused)
     {
         std::vector<Creature*> creatures = world.getNearestCreatures(std::max(screenHeight,screenWidth), *player);
@@ -55,17 +56,49 @@ void Game::everyTick(SDL_Event& e)
         renderer->render(*player);
         renderer->update();
     }
-    if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE && input.keyManager.getLatest() != SDLK_ESCAPE)
+    if (e.type == SDL_KEYDOWN)
     {
-        paused = !paused;
+        SDL_Keycode latest = input.keyManager.getLatest();
+        SDL_Keycode current = e.key.keysym.sym;
+       if ( current == SDLK_ESCAPE &&  latest != SDLK_ESCAPE)
+        {
+            if (!paused)
+            {
+                interface.current = &interface.quit;
+            }
+            else
+            {
+                interface.current = nullptr;
+            }
+        }
+        else if (!paused)
+        {
+            SDL_Keycode pressed =  (current)*(latest != current) + (latest == current)*-1;
+            Window* window = nullptr;
+            switch (pressed)
+            {
+            case SDLK_TAB:
+                window = &interface.log;
+                break;
+            }
+            if (window != nullptr)
+            {
+                if (interface.current != window)
+                {
+                    interface.current = window;
+                }
+                else
+                {
+                    interface.current = nullptr;
+                }
+            }
+
+        }
     }
-    if (paused)
-    {
-        interface.current = &interface.quit;
-        interface.render();
-    }
+
     input.update(e);
     interface.update();
+    interface.render();
     double current = SDL_GetTicks();
     deltaTime = (current - currentTime)/Game::perMilSecond;
     currentTime = current;

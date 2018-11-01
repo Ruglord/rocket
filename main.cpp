@@ -18,7 +18,6 @@
 #include "rocket.h"
 #include "camera.h"
 #include "game.h"
-bool Game::paused = false;
 RenderProgram RenderController::basic;
 RenderProgram RenderController::scanning;
 RenderProgram RenderController::wordProgram;

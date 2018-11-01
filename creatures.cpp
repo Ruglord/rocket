@@ -63,17 +63,34 @@ void CreaturePosition::move(double x, double y, Creature& c)//moves creature in 
     moveTowards(boundingRect.x + x, boundingRect.y + y,c);
 }
 
+double CreaturePosition::getSpeed()
+{
+    double total = 0;
+    for (std::list<std::pair<double,int>>::iterator i= speedMods.begin(); i  != speedMods.end(); i ++)
+    {
+        total += std::get<0>(*i);
+
+    }
+    return speed + total;
+}
+
+void CreaturePosition::setSpeed(double sp)
+{
+    speed = sp;
+}
+
 void CreaturePosition::moveTowards(double x, double y, Creature& c) //moves the creatures towards a point.
 {
     glm::vec4 hit = boundingRect;
     double radians = atan2(y-hit.y, x-hit.x );
    // std::cout << radians << std::endl;
-    double horizSpeed = speed*cos(radians);
+   double currentSpeed = getSpeed();
+    double horizSpeed = currentSpeed*cos(radians);
     if (abs(x - hit.x) < abs(horizSpeed))
     {
         horizSpeed = x-hit.x;
     }
-    double vertSpeed = speed*sin(radians);
+    double vertSpeed = currentSpeed*sin(radians);
     if (abs(y - hit.y) < abs(vertSpeed))
     {
         vertSpeed = y-hit.y;
@@ -148,7 +165,7 @@ SchoolOfFish::SchoolOfFish(double x, double y) : Creature( SCHOOLOFFISH)
     sprite.get()->setSprite(fish);
     AI.reset(new SchoolOfFishAI);
     position.get()->setRect(glm::vec4(x,y,92,69));
-    position.get()->speed = .5;
+    position.get()->setSpeed(.5);
     health.get()->health = 10;
 }
 
@@ -171,7 +188,7 @@ Shark::Shark( double x, double y) : Creature(SHARK)
     sprite.get()->setSprite(sharkSprite);
     AI.reset(new SharkAI);
     position.get()->setRect(glm::vec4(x,y,256,128));
-    position.get()->speed = .5;
+    position.get()->setSpeed(.5);
     health.get()->health = 20;
     scan.reset(new ScanComponent);
     scan.get()->scanTime = 2000;
@@ -183,7 +200,7 @@ void SharkAI::AI(Creature& shark)
       glm::vec4 vec = shark.position.get()->getRect();
     std::vector<Creature*> lst = (Game::world.getNearestCreatures(100,shark));
     int size = lst.size();
-    glm::vec2 target(vec.x +vec.z+ shark.position.get()->speed,vec.y);
+    glm::vec2 target(vec.x +vec.z+ shark.position.get()->getSpeed(),vec.y);
     for (int i = 0; i < size; i ++)
     {
         if (lst[i]->getID()== ROCKET)

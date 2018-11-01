@@ -28,9 +28,13 @@ struct CreatureSprite : public SpriteComponent
 };
 struct CreaturePosition : public PositionComponent
 {
-    double speed = 0;
+    std::list<double> speedMods; //double is the actual speed increase. First int is the time of the effect and the
     void move(double x, double y,Creature& c);//moves creature in the direction x, y;
     void moveTowards(double x, double y, Creature& c); //moves the creatures towards a point.
+    double getSpeed();
+    void setSpeed(double sp);
+private:
+        double speed = 0;
 };
 class Creature : public IDed
 {

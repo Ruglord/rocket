@@ -52,6 +52,7 @@ struct Interface
 {
     Window* current = nullptr;
     Window quit;
+    Window log;
     Interface();
     void render();
     void init();
