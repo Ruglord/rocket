@@ -1,25 +1,18 @@
 #ifndef CREATURES_H_INCLUDED
 #define CREATURES_H_INCLUDED
 #include <vector>
-#include <map>
+#include <list>
 #include "objects.h"
 #include "camera.h"
-
 class CreatureWorld;
 class Creature;
+class Trait;
 struct AIComponent : public Component
 {
     virtual void AI( Creature& e) ;
 
 };
-struct ScanComponent : public Component
-{
-    bool scanning = false;
-    void update(SpriteComponent* sprite);
-    void setScanning(bool value); //if value is true, start the scanning
-    int scanTime = 0;
 
-};
 struct CreatureSprite : public SpriteComponent
 {
     void changeAngle(double newAngle);
@@ -28,7 +21,7 @@ struct CreatureSprite : public SpriteComponent
 };
 struct CreaturePosition : public PositionComponent
 {
-    std::list<double> speedMods; //double is the actual speed increase. First int is the time of the effect and the
+    std::list<double> speedMods; //list of all the speed modifications
     void move(double x, double y,Creature& c);//moves creature in the direction x, y;
     void moveTowards(double x, double y, Creature& c); //moves the creatures towards a point.
     double getSpeed();
@@ -36,26 +29,22 @@ struct CreaturePosition : public PositionComponent
 private:
         double speed = 0;
 };
+class Effect;
+class ScanComponent;
 class Creature : public IDed
 {
 protected:
     std::vector<Thing> attachments;
 public:
+    ScanComponent* scan = nullptr; //pointer to a static scan Component
+    std::list<Effect*> effects;
     std::unique_ptr<HealthComponent> health;
     std::unique_ptr<SpriteComponent> sprite;
     std::unique_ptr<CreaturePosition> position;
     std::unique_ptr<AIComponent> AI;
-    std::unique_ptr<ScanComponent> scan;
     Creature(int ID);
     AIComponent& getAI();
-   virtual  void update()
-    {
-        health.get()->updateDamaged();
-        glm::vec4 rect = position.get()->getRect();
-        AI.get()->AI(*this);
-        scan.get()->update(sprite.get());
-        //sprite.get()->render(rect.x,rect.y,rect.w,rect.a);
-    }
+    virtual void update();
 };
 
 class Rocket;
@@ -100,7 +89,6 @@ class Crab : public Creature
 public:
     //Crab(double x, double y);
 };
-
 struct SharkAI : public AIComponent
 {
     virtual void AI(Creature& shark);

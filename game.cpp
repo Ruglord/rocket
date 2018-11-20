@@ -6,13 +6,28 @@ void MouseManager::getMouse(SDL_Event& e)
     if (e.type == SDL_MOUSEBUTTONDOWN)
     {
         if (findNumber(e.button.button) == -1)
+        {
+            justClicked = e.button.button;
             addNumber(e.button.button);
+        }
+        else
+        {
+            justClicked = -1;
+        }
     }
-    else if (e.type == SDL_MOUSEBUTTONUP)
+    else
     {
-        removeNumber(e.button.button);
-    }
+        justClicked = -1;
+        if (e.type == SDL_MOUSEBUTTONUP)
+        {
+            removeNumber(e.button.button);
+        }
 
+    }
+}
+int MouseManager::getJustClicked()
+{
+    return justClicked;
 }
 
 void InputController::update(SDL_Event& e)
@@ -43,6 +58,7 @@ glm::vec2 Game::getDimentions()
 void Game::everyTick(SDL_Event& e)
 {
     bool paused = interface.current == &interface.quit;
+    input.update(e);
     if (!paused)
     {
         std::vector<Creature*> creatures = world.getNearestCreatures(std::max(screenHeight,screenWidth), *player);
@@ -56,24 +72,13 @@ void Game::everyTick(SDL_Event& e)
         renderer->render(*player);
         renderer->update();
     }
-    if (e.type == SDL_KEYDOWN)
-    {
-        SDL_Keycode latest = input.keyManager.getLatest();
-        SDL_Keycode current = e.key.keysym.sym;
-       if ( current == SDLK_ESCAPE &&  latest != SDLK_ESCAPE)
+        SDL_Keycode pressed =  input.keyManager.getJustPressed();
+       if (pressed == SDLK_ESCAPE)
         {
-            if (!paused)
-            {
-                interface.current = &interface.quit;
-            }
-            else
-            {
-                interface.current = nullptr;
-            }
+                interface.switchWindow(&interface.quit);
         }
         else if (!paused)
         {
-            SDL_Keycode pressed =  (current)*(latest != current) + (latest == current)*-1;
             Window* window = nullptr;
             switch (pressed)
             {
@@ -83,20 +88,11 @@ void Game::everyTick(SDL_Event& e)
             }
             if (window != nullptr)
             {
-                if (interface.current != window)
-                {
-                    interface.current = window;
-                }
-                else
-                {
-                    interface.current = nullptr;
-                }
+                interface.switchWindow(window);
             }
 
         }
-    }
 
-    input.update(e);
     interface.update();
     interface.render();
     double current = SDL_GetTicks();

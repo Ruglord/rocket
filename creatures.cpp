@@ -1,24 +1,10 @@
 #include "creatures.h"
 #include "image.h"
 #include "game.h"
+#include "scans.h"
 void AIComponent::AI(Creature& e) {
 
 
-}
-
-void ScanComponent::setScanning(bool value) //if value is true, start the scanning
-{
-    scanning = value;
-}
-void ScanComponent::update(SpriteComponent* sprite)
-{
-    if (scanning && scanTime > 0 )
-    {
-        sprite->request = &RenderController::scanning;
-        sprite->request->setVec3fv("shade",{abs(sin(SDL_GetTicks()/100.0)),abs(sin(SDL_GetTicks()/1000.0)),abs(sin(SDL_GetTicks()))});
-        scanning = false;
-        scanTime -= Game::deltaTime;
-    }
 }
 
 Creature::Creature(int ID) : IDed(ID)
@@ -28,7 +14,25 @@ Creature::Creature(int ID) : IDed(ID)
         health.reset(new HealthComponent);
         AI.reset(new AIComponent);
 }
-
+void Creature::update()
+{
+    health.get()->updateDamaged();
+    AI.get()->AI(*this);
+    if (scan)
+    scan->update(sprite.get());
+    position.get()->speedMods.clear();
+    double startTime = SDL_GetTicks();
+    for (std::list<Effect*>::iterator i = effects.begin(); i != effects.end(); i ++)
+    {
+        Effect* current = (*i);
+        current->effect();
+        if (startTime - current->startTime >= current->duration)
+        {
+            effects.erase(i);
+        }
+    }
+    //sprite.get()->render(rect.x,rect.y,rect.w,rect.a);
+}
  AIComponent& Creature::getAI()
 {
     return *(AI.get());
@@ -66,9 +70,9 @@ void CreaturePosition::move(double x, double y, Creature& c)//moves creature in 
 double CreaturePosition::getSpeed()
 {
     double total = 0;
-    for (std::list<std::pair<double,int>>::iterator i= speedMods.begin(); i  != speedMods.end(); i ++)
+    for (std::list<double>::iterator i= speedMods.begin(); i  != speedMods.end(); i ++)
     {
-        total += std::get<0>(*i);
+        total += *i;
 
     }
     return speed + total;
@@ -190,8 +194,7 @@ Shark::Shark( double x, double y) : Creature(SHARK)
     position.get()->setRect(glm::vec4(x,y,256,128));
     position.get()->setSpeed(.5);
     health.get()->health = 20;
-    scan.reset(new ScanComponent);
-    scan.get()->scanTime = 2000;
+    scan = &SharkScan;
 }
 
 void SharkAI::AI(Creature& shark)

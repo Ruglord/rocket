@@ -72,6 +72,8 @@
 		<Unit filename="objects.h" />
 		<Unit filename="rocket.cpp" />
 		<Unit filename="rocket.h" />
+		<Unit filename="scans.cpp" />
+		<Unit filename="scans.h" />
 		<Unit filename="shaders/fragment/fragmentShader.h">
 			<Option target="Release" />
 		</Unit>
@@ -84,6 +86,7 @@
 		<Unit filename="stb_image.h">
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="traitWrappers.h" />
 		<Unit filename="traits.cpp" />
 		<Unit filename="traits.h" />
 		<Extensions>

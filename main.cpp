@@ -18,6 +18,10 @@
 #include "rocket.h"
 #include "camera.h"
 #include "game.h"
+#include "scans.h"
+
+std::map<EntityID, bool> Game::scannedCreatures;
+std::vector<Trait*> Game::traitList;
 RenderProgram RenderController::basic;
 RenderProgram RenderController::scanning;
 RenderProgram RenderController::wordProgram;
@@ -59,6 +63,8 @@ loadSprites(dimen.x,dimen.y);
 Game::init();
 SDL_StopTextInput();
 
+initScans();
+
 GLuint wordProgram = glCreateProgram();
 int wordFragment =loadShaders("shaders/fragment/wordFragment.h",GL_FRAGMENT_SHADER);
 int wordVertex = loadShaders("shaders/vertex/wordVertex.h",GL_VERTEX_SHADER);
@@ -92,6 +98,12 @@ while(quit == false)
 {
  //   std::cout << SDL_GetTicks() << std::endl;
  fps = SDL_GetTicks();
+
+    glClear(GL_COLOR_BUFFER_BIT);
+    double height = 0;
+    glClearColor(0,(.7-height/10000),1-height/10000,1);
+  //  box.render(testProgram,0,0,640,640,0);
+    Game::everyTick(e);
     while (SDL_PollEvent(&e))
     {
         if (e.type == SDL_QUIT)
@@ -99,12 +111,6 @@ while(quit == false)
           quit = true;
         }
     }
-    glClear(GL_COLOR_BUFFER_BIT);
-    double height = 0;
-    glClearColor(0,(.7-height/10000),1-height/10000,1);
-  //  box.render(testProgram,0,0,640,640,0);
-    Game::everyTick(e);
-
     //box.render(program,0,0,64,64,angle);
    // angle += .001;
     SDL_GL_SwapWindow(window);

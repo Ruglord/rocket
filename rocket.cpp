@@ -1,6 +1,7 @@
  #include "rocket.h"
 #include "image.h"
 #include "game.h"
+#include "scans.h"
  const double Rocket::maxSpeed = 1;
 
  void InputComponent::update(InputController& manager, SDL_Event& e)
@@ -27,23 +28,47 @@
     if (manager.mouseManager.findNumber(SDL_BUTTON_LEFT) != -1)
     {
         Creature* found =Game::findCreaturePosition(pos.x,pos.y);
-        if ( found != nullptr)
+        if ( found != nullptr ) //if this creatures hasn't been scanned yet
         {
-            found->scan.get()->setScanning(true);
+            found->scan->setScanning(true);
         }
     }
+    int lastPressed = manager.keyManager.getJustPressed();
+    if (lastPressed == SDLK_q)
+    {
+        if (r.traits[0].get() != nullptr)
+        {
+            r.traits[0].get()->ability(r);
+        }
+    }
+    else if (lastPressed == SDLK_w)
+    {
+        if (r.traits[1].get() != nullptr)
+        {
+            r.traits[1].get()->ability(r);
+        }
+    }
+    else if (lastPressed == SDLK_e)
+    {
+        if (r.traits[2].get() != nullptr)
+        {
+            r.traits[2].get()->ability(r);
+        }
+    }
+
  }
     Rocket::Rocket(double x, double y) : Creature( ROCKET)
     {
-
+        traits[0] = std::shared_ptr<Trait>();
+        traits[1] = std::shared_ptr<Trait>();
+        traits[2] = std::shared_ptr<Trait>();
         position.get()->setRect(glm::vec4(x,y,64,32));
         position.get()->setSpeed(1.5);
         sprite.reset(new SpriteComponent);
          sprite.get()->setSprite(rocket);
          input.reset(new RocketInput);
     health.get()->health = 20;
-    scan.reset(new ScanComponent);
-    traits[0] = new speedUp;
+    scan = nullptr;
     }
     void Rocket::changeSpeed(double horiz, double vert) //increases speed by horiz and vert
     {
@@ -57,6 +82,7 @@
     }
     void Rocket::update(InputController& manager, SDL_Event& e) //pressed = true if key was pressed false if released
     {
+        Creature::update();
         input.get()->update(manager,e,*this);
      //   traits[0]->ability(*this);
        // changeSpeed(0,0);

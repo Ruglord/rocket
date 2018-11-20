@@ -7,6 +7,9 @@ extern Sprite rocket;
 extern Sprite box;
 extern Sprite fish;
 extern Sprite sharkSprite;
+extern Sprite traitIcon;
+extern Sprite speedUpSprite;
+
 extern Sprite9 frame;
 
 extern Font alef;
