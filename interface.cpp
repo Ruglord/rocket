@@ -48,19 +48,24 @@ TraitButton::TraitButton(double x, double y, int w, int h, Trait* tr) : Button(x
 }
 void TraitButton::pressed()
 {
+    Trait** current = nullptr;
+    Trait** empty = nullptr;
    for (int i = 0; i < numberOfTraits; i ++)
    {
     Trait** current = &Interface::icons[i].get()->trait;
        if (*current == nullptr) //find the next blank spot and add the trait in
        {
-           *current = trait;
-           break;
-       }
+           if (!empty) //if an empty square hasn't been found yet
+           {
+                empty = current;
+           }
+        }
        else if (*current == trait) //if the player already has the trait, exit the function
        {
            return;
        }
    }
+   *empty = trait;
 
 }
 void TraitButton::render()
