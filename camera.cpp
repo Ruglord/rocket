@@ -43,9 +43,9 @@
         camera.init(width,height,&r);
         basic.init(vertex,fragment);
         scanning.init(vertex,"shaders/fragment/paintShader.h");
-        const float* mat = glm::value_ptr(glm::ortho(0.0f, (float)width,(float)height, 0.0f, -1.0f, 1.0f));
-        scanning.setMatrix4fv("projection",mat);
-        basic.setMatrix4fv("projection",mat);
+        glm::mat4 mat = glm::ortho(0.0f, (float)width,(float)height, 0.0f, -1.0f, 1.0f);
+        scanning.setMatrix4fv("projection",glm::value_ptr(mat));
+        basic.setMatrix4fv("projection",glm::value_ptr(mat));
         wordProgram.init("shaders/vertex/wordVertex.h","shaders/fragment/wordFragment.h");
         wordProgram.setMatrix4fv("projection",glm::value_ptr(glm::ortho(0.0f, (float)width,0.0f,(float)height)));
     }

@@ -36,32 +36,33 @@
     int lastPressed = manager.keyManager.getJustPressed();
     if (lastPressed == SDLK_q)
     {
-        if (r.traits[0].get() != nullptr)
+        Trait* tr = Interface::icons[0].get()->trait;
+        if (tr != nullptr)
         {
-            r.traits[0].get()->ability(r);
+            tr->ability(r);
         }
     }
     else if (lastPressed == SDLK_w)
     {
-        if (r.traits[1].get() != nullptr)
+        Trait* tr = Interface::icons[1].get()->trait;
+        if (tr != nullptr)
         {
-            r.traits[1].get()->ability(r);
+            tr->ability(r);
         }
     }
     else if (lastPressed == SDLK_e)
     {
-        if (r.traits[2].get() != nullptr)
+        Trait* tr = Interface::icons[2].get()->trait;
+        if (tr != nullptr)
         {
-            r.traits[2].get()->ability(r);
+            tr->ability(r);
         }
     }
 
  }
     Rocket::Rocket(double x, double y) : Creature( ROCKET)
     {
-        traits[0] = std::shared_ptr<Trait>();
-        traits[1] = std::shared_ptr<Trait>();
-        traits[2] = std::shared_ptr<Trait>();
+
         position.get()->setRect(glm::vec4(x,y,64,32));
         position.get()->setSpeed(1.5);
         sprite.reset(new SpriteComponent);

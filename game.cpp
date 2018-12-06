@@ -47,9 +47,11 @@ void Game::init()
     deltaTime = 0;
     currentTime = SDL_GetTicks();
     setDimensions();
+
     player = new Rocket(0,0);
     renderer = new RenderController("shaders/vertex/vertexShader.h","shaders/fragment/fragmentShader.h",screenWidth,screenHeight,*player);
     interface.init();
+
 }
 glm::vec2 Game::getDimentions()
 {

@@ -20,6 +20,10 @@
 #include "game.h"
 #include "scans.h"
 
+std::shared_ptr<TraitIcon> Interface::icons[numberOfTraits];
+Window* Interface::current;
+Window Interface::quit;
+TraitsWindow Interface::log;
 std::map<EntityID, bool> Game::scannedCreatures;
 std::vector<Trait*> Game::traitList;
 RenderProgram RenderController::basic;
@@ -61,6 +65,7 @@ glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 glEnable( GL_BLEND );
 loadSprites(dimen.x,dimen.y);
 Game::init();
+
 SDL_StopTextInput();
 
 initScans();
@@ -77,8 +82,8 @@ glDeleteShader(wordFragment);
 glDeleteShader(wordVertex);
 
 RenderProgram testProgram("shaders/vertex/vertexShader.h","shaders/fragment/fragmentShader.h");
-        testProgram.setMatrix4fv("projection",glm::value_ptr(glm::ortho(0.0f, (float)dimen.x,(float)dimen.y, 0.0f, -1.0f, 1.0f)));
-
+        glm::mat4 mat = (glm::ortho(0.0f, (float)dimen.x,(float)dimen.y, 0.0f, -1.0f, 1.0f));
+        testProgram.setMatrix4fv("projection",glm::value_ptr(mat));
 srand(time(NULL));
 
 
@@ -94,16 +99,12 @@ background.init(dimen.x,dimen.y,"sprites/cloudBackground.png",false);
 //box.mirror();
 //double angle = 0;
 int fps;
+SpriteComponent* testComponent = new SpriteComponent;
+testComponent->setSprite(sharkSprite);
 while(quit == false)
 {
  //   std::cout << SDL_GetTicks() << std::endl;
  fps = SDL_GetTicks();
-
-    glClear(GL_COLOR_BUFFER_BIT);
-    double height = 0;
-    glClearColor(0,(.7-height/10000),1-height/10000,1);
-  //  box.render(testProgram,0,0,640,640,0);
-    Game::everyTick(e);
     while (SDL_PollEvent(&e))
     {
         if (e.type == SDL_QUIT)
@@ -111,12 +112,16 @@ while(quit == false)
           quit = true;
         }
     }
+    glClear(GL_COLOR_BUFFER_BIT);
+    double height = 0;
+    glClearColor(0,(.7-height/10000),1-height/10000,1);
+    //sharkSprite.renderInstanced(testProgram,{{{0,0,640,640}}});
+    Game::everyTick(e);
     //box.render(program,0,0,64,64,angle);
    // angle += .001;
     SDL_GL_SwapWindow(window);
 //std::cout << SDL_GetTicks() << std::endl;
     //alef.write(wordProgram,"FPS: " + convert(fps),0,0,1,{0,0,0});
-   // std::cout << SDL_GetTicks() - fps<< std::endl;
 SDL_Delay(1);
 }
 

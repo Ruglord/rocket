@@ -19,7 +19,6 @@ class Rocket :public Creature
     double vertSpeed = 0;
     static const double maxSpeed;
 public:
-    std::shared_ptr<Trait> traits[numberOfTraits];
     std::unique_ptr<RocketInput> input;
     Rocket(double x, double y);
     void update(InputController& manager, SDL_Event& e);
