@@ -71,8 +71,8 @@ void Game::everyTick(SDL_Event& e)
             renderer->render(*current);
         }
         player->update(input,e);
-        renderer->render(*player);
         renderer->update();
+        renderer->render(*player);
     }
         SDL_Keycode pressed =  input.keyManager.getJustPressed();
        if (pressed == SDLK_ESCAPE)
