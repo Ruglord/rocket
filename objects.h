@@ -24,7 +24,7 @@ class SpriteComponent : public Component
 {
 protected:
     Sprite* sprite = nullptr;
-    double angle = 0;
+    double angle = 0; //radians
     glm::vec3 tint = {0,0,0};
 public:
     RenderProgram* request = nullptr;

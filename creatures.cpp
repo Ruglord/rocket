@@ -48,18 +48,17 @@ void CreatureSprite::changeAngle(double newAngle)
         sprite->flip();
     }
 }
-void CreatureSprite::incrementAngle(double target, double speed) //add target angle to the current angle. Speed is the rate at which the angle should be added
+void CreatureSprite::incrementAngle(double target, double speed) //add target angle to the current angle. Speed is the proportion of the angle that should be added
 {
-    double distance = target-angle;
-    if (abs(target-angle) < abs(target+2*M_PI-angle))
+    double modTarget = target;
+    double modAngle = angle;
+
+    double distance = modTarget - modAngle;
+    if (abs(distance)> M_PI)
     {
-        distance = target-angle;
+        distance = -distance/abs(distance)*(2*M_PI-abs(distance));
     }
-    else
-    {
-        distance = target+2*M_PI-angle;
-    }
-        changeAngle(angle+distance*std::min(speed,1.0));
+    changeAngle(angle + speed*distance);
 }
 
 void CreaturePosition::move(double x, double y, Creature& c)//moves creature in the direction x, y;
@@ -85,12 +84,13 @@ void CreaturePosition::setSpeed(double sp)
 
 void CreaturePosition::moveTowards(double x, double y, Creature& c) //moves the creatures towards a point.
 {
-    glm::vec4 hit = boundingRect;
+    bool facingLeft = x < boundingRect.x + boundingRect.w;
+    glm::vec4 hit = {boundingRect.x+boundingRect.z*(!facingLeft),boundingRect.y,boundingRect.z,boundingRect.w};
     double radians = atan2(y-hit.y, x-hit.x );
    // std::cout << radians << std::endl;
    double currentSpeed = getSpeed();
     double horizSpeed = currentSpeed*cos(radians);
-    if (abs(x - hit.x) < abs(horizSpeed))
+    if (abs(x - hit.x) < abs(horizSpeed)) //if the creature is close enough to the creature, we can just move the creature right to the target
     {
         horizSpeed = x-hit.x;
     }
@@ -99,7 +99,7 @@ void CreaturePosition::moveTowards(double x, double y, Creature& c) //moves the 
     {
         vertSpeed = y-hit.y;
     }
-    changeCoords(hit.x + horizSpeed*Game::deltaTime, hit.y + vertSpeed*Game::deltaTime);
+    changeCoords(boundingRect.x + horizSpeed*Game::deltaTime, hit.y + vertSpeed*Game::deltaTime);
 
 }
 
@@ -216,7 +216,7 @@ void SharkAI::AI(Creature& shark)
         }
     }
     shark.position.get()->moveTowards(target.x, target.y,shark);
-    ((CreatureSprite*)(shark.sprite.get()))->incrementAngle(atan2(target.y-(vec.y),target.x-(vec.x+vec.z*.75)),.01);
+    ((CreatureSprite*)(shark.sprite.get()))->incrementAngle(atan2(target.y-(vec.y),target.x-(vec.x+vec.z/2)),.01);
     //std::cout << loop << " " << distance << std::endl;
  //   changeAngle(current + .01*(distance*bigger + loop*!bigger));
 }

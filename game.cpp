@@ -39,8 +39,8 @@ void Game::setDimensions()
 {
         SDL_DisplayMode display;
     SDL_GetCurrentDisplayMode(0,&display);
-    screenWidth = display.w;
-    screenHeight = display.h;
+    screenWidth = 640;//display.w;
+    screenHeight = 640;//display.h;
 }
 void Game::init()
 {
