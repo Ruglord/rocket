@@ -48,6 +48,9 @@
         basic.setMatrix4fv("projection",glm::value_ptr(mat));
         wordProgram.init("shaders/vertex/wordVertex.h","shaders/fragment/wordFragment.h");
         wordProgram.setMatrix4fv("projection",glm::value_ptr(glm::ortho(0.0f, (float)width,0.0f,(float)height)));
+
+        lineProgram.init("shaders/vertex/simpleVertex.h","shaders/fragment/simpleFragment.h");
+        lineProgram.setMatrix4fv("projection",glm::value_ptr(mat));
     }
     void RenderController::render(Creature& creature)
     {

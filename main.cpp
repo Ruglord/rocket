@@ -29,6 +29,7 @@ std::vector<Trait*> Game::traitList;
 RenderProgram RenderController::basic;
 RenderProgram RenderController::scanning;
 RenderProgram RenderController::wordProgram;
+RenderProgram RenderController::lineProgram;
 double Game::currentTime = 0;
 double Game::deltaTime = 0;
 Interface Game::interface;
