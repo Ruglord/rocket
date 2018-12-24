@@ -25,8 +25,9 @@
     void Camera::render(RenderProgram& program,PositionComponent& p, SpriteComponent& s)
     {
             glm::vec4 coords = p.getRect();
+            glm::vec2 translated = translate({coords.x,coords.y});
             //std::cout << coords.x-region.x << std::endl;
-            s.render(program,coords.x-region.x,coords.y-region.y, coords.z, coords.a);
+            s.render(program,translated.x,translated.y, coords.z, coords.a);
             //box.renderInstanced(program,{{{0,0,64,64},0}});
     }
     void Camera::renderCenter(RenderProgram& program)
@@ -37,7 +38,10 @@
     {
         return region;
     }
-
+    glm::vec2 Camera::translate(const glm::vec2& point)
+    {
+        return {point.x - region.x, point.y - region.y};
+    }
     RenderController::RenderController(std::string vertex, std::string fragment,int width, int height, Rocket& r)
     {
         camera.init(width,height,&r);
@@ -84,5 +88,10 @@
     {
         camera.adjust();
     }
+    glm::vec2 RenderController::translate(const glm::vec2& point)
+    {
+        return camera.translate(point);
+    }
+
 
 

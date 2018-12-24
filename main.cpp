@@ -19,6 +19,7 @@
 #include "camera.h"
 #include "game.h"
 #include "scans.h"
+#include "world.h"
 
 std::shared_ptr<TraitIcon> Interface::icons[numberOfTraits];
 Window* Interface::current;
@@ -38,17 +39,18 @@ int Game::screenWidth = 0;
 int Game::screenHeight = 0;
 RenderController* Game::renderer;
 Rocket* Game::player;
-CreatureWorld Game::world;
+CreatureWorld Game::creatures;
+World* Game::world;
 InputController Game::input;
 int main(int argc, char *argv[])
 {
+    std::cout << lineInVec({0,0},{0,100},{10,100,50,100},M_PI/2) << std::endl;
 bool quit = false;
 SDL_Event e;
 SDL_Init(SDL_INIT_VIDEO);
 SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 3 );
 SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 3 );
 SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,SDL_GL_CONTEXT_PROFILE_CORE);
-
 //GLuint p = glCreateProgram();
 Game::setDimensions();
 glm::vec2 dimen = Game::getDimentions();
@@ -88,8 +90,8 @@ RenderProgram testProgram("shaders/vertex/vertexShader.h","shaders/fragment/frag
 srand(time(NULL));
 
 
-Shark shark(-100,0);
-CreatureWorld* world = &Game::world;
+Shark shark(-100,-300);
+CreatureWorld* world = &Game::creatures;
 world->addCreature(shark);
 
 Sprite background;

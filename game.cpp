@@ -1,4 +1,5 @@
 #include "game.h"
+#include "world.h"
 #include "render.h"
 #include "image.h"
 void MouseManager::getMouse(SDL_Event& e)
@@ -47,7 +48,7 @@ void Game::init()
     deltaTime = 0;
     currentTime = SDL_GetTicks();
     setDimensions();
-
+    world = new World();
     player = new Rocket(0,0);
     renderer = new RenderController("shaders/vertex/vertexShader.h","shaders/fragment/fragmentShader.h",screenWidth,screenHeight,*player);
     interface.init();
@@ -63,14 +64,15 @@ void Game::everyTick(SDL_Event& e)
     input.update(e);
     if (!paused)
     {
-        std::vector<Creature*> creatures = world.getNearestCreatures(std::max(screenHeight,screenWidth), *player);
-        for (int i = 0; i < creatures.size();i ++)
+        std::vector<Creature*> things = creatures.getNearestCreatures(std::max(screenHeight,screenWidth), *player);
+        for (int i = 0; i < things.size();i ++)
         {
-            Creature* current = creatures[i];
+            Creature* current = things[i];
             current->update();
             renderer->render(*current);
         }
         player->update(input,e);
+        world->render();
         renderer->update();
         renderer->render(*player);
     }
@@ -103,12 +105,12 @@ void Game::everyTick(SDL_Event& e)
 }
 Creature* Game::findCreaturePosition(double x, double y)
 {
-    std::vector<Creature*> creatures = world.getCreatures();
+    std::vector<Creature*> things = creatures.getCreatures();
     //std::cout << x<<" "<<y << std::endl;
-    int size = creatures.size();
+    int size = things.size();
     for (int i = 0; i < size; i ++)
     {
-        Creature* current = creatures[i];
+        Creature* current = things[i];
         if (pointInVec(current->position.get()->getRect(),x,y))
         {
             return current;

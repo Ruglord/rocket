@@ -3,7 +3,7 @@
 
 1536544657 c:\users\leoou\onedrive\desktop\projects\rocket\sprites.h
 
-1544758431 source:c:\users\leoou\onedrive\desktop\projects\rocket\main.cpp
+1545441946 source:c:\users\leoou\onedrive\desktop\projects\rocket\main.cpp
 	<iostream>
 	<SDL.h>
 	<glew.h>
@@ -20,6 +20,7 @@
 	"camera.h"
 	"game.h"
 	"scans.h"
+	"world.h"
 
 1519922305 c:\users\leoou\onedrive\desktop\sdl stuff\sdl2-2.0.8\x86_64-w64-mingw32\include\sdl2\sdl.h
 	"SDL_main.h"
@@ -901,7 +902,7 @@
 1525695782 c:\users\leoou\onedrive\desktop\glm\glm\gtc\type_ptr.inl
 	<cstring>
 
-1544652207 c:\users\leoou\onedrive\desktop\resources\render.h
+1545412375 c:\users\leoou\onedrive\desktop\resources\render.h
 	<iostream>
 	<vector>
 	"glew.h"
@@ -916,7 +917,7 @@
 	"creatures.h"
 	"traits.h"
 
-1544200981 c:\users\leoou\onedrive\desktop\projects\rocket\objects.h
+1545411717 c:\users\leoou\onedrive\desktop\projects\rocket\objects.h
 	"render.h"
 	<SDL.h>
 	<SDLhelper.h>
@@ -929,7 +930,7 @@
 1542592583 c:\users\leoou\onedrive\desktop\projects\rocket\image.h
 	"FreeTypeHelper.h"
 
-1544653368 source:c:\users\leoou\onedrive\desktop\resources\render.cpp
+1545667700 source:c:\users\leoou\onedrive\desktop\resources\render.cpp
 	<sstream>
 	<fstream>
 	"stb_image.h"
@@ -955,7 +956,7 @@
 1536717209 source:c:\users\leoou\onedrive\desktop\projects\rocket\sparkles.cpp
 	"sparkles.h"
 
-1542764772 source:c:\users\leoou\onedrive\desktop\projects\rocket\objects.cpp
+1545411458 source:c:\users\leoou\onedrive\desktop\projects\rocket\objects.cpp
 	<glm.hpp>
 	<gtc/matrix_transform.hpp>
 	<gtc/type_ptr.hpp>
@@ -965,11 +966,11 @@
 1540578984 source:c:\users\leoou\onedrive\desktop\resources\sparkles.cpp
 	"sparkles.h"
 
-1544758330 c:\users\leoou\onedrive\desktop\projects\rocket\camera.h
+1545269152 c:\users\leoou\onedrive\desktop\projects\rocket\camera.h
 	"objects.h"
 	<glm.hpp>
 
-1544758480 source:c:\users\leoou\onedrive\desktop\projects\rocket\camera.cpp
+1545269171 source:c:\users\leoou\onedrive\desktop\projects\rocket\camera.cpp
 	"camera.h"
 	"creatures.h"
 	"rocket.h"
@@ -979,10 +980,11 @@
 	"SDL.h"
 	"vanilla.h"
 
-1544462955 source:c:\users\leoou\onedrive\desktop\projects\rocket\creatures.cpp
+1545505422 source:c:\users\leoou\onedrive\desktop\projects\rocket\creatures.cpp
 	"creatures.h"
 	"image.h"
 	"game.h"
+	"world.h"
 	"scans.h"
 
 1542155284 c:\users\leoou\onedrive\desktop\projects\rocket\creatures.h
@@ -1030,15 +1032,16 @@
 
 1538447271 source:c:\users\leoou\onedrive\desktop\resources\glewhelper.cpp
 
-1542600776 c:\users\leoou\onedrive\desktop\projects\rocket\game.h
+1545324999 c:\users\leoou\onedrive\desktop\projects\rocket\game.h
 	<map>
 	"rocket.h"
 	"camera.h"
 	"interface.h"
 	<glm.hpp>
 
-1544464074 source:c:\users\leoou\onedrive\desktop\projects\rocket\game.cpp
+1545325073 source:c:\users\leoou\onedrive\desktop\projects\rocket\game.cpp
 	"game.h"
+	"world.h"
 	"render.h"
 	"image.h"
 
@@ -1073,5 +1076,15 @@
 
 1542750980 source:c:\users\leoou\onedrive\desktop\projects\rocket\scans.cpp
 	"scans.h"
+	"game.h"
+
+1545270437 c:\users\leoou\onedrive\desktop\projects\rocket\world.h
+	<vector>
+	<glm.hpp>
+	<gtc/matrix_transform.hpp>
+	<gtc/type_ptr.hpp>
+
+1545320620 source:c:\users\leoou\onedrive\desktop\projects\rocket\world.cpp
+	"world.h"
 	"game.h"
 

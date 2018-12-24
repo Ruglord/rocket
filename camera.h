@@ -15,7 +15,7 @@ public:
     void render(RenderProgram& program, PositionComponent& p, SpriteComponent& s);
     void renderCenter(RenderProgram& program);
     glm::vec4 getRegion();
-
+    glm::vec2 translate(const glm::vec2& point);
 
 };
 class Creature;
@@ -33,6 +33,7 @@ public:
     void render(SpriteComponent& sprite, PositionComponent& position);
     void render(Creature& creature);
     glm::vec4 getRegion();
+    glm::vec2 translate(const glm::vec2& point);
     void update();
 };
 

@@ -1,6 +1,7 @@
 #include "creatures.h"
 #include "image.h"
 #include "game.h"
+#include "world.h"
 #include "scans.h"
 void AIComponent::AI(Creature& e) {
 
@@ -99,7 +100,25 @@ void CreaturePosition::moveTowards(double x, double y, Creature& c) //moves the 
     {
         vertSpeed = y-hit.y;
     }
-    changeCoords(boundingRect.x + horizSpeed*Game::deltaTime, hit.y + vertSpeed*Game::deltaTime);
+    glm::vec4 xRect = {boundingRect.x + horizSpeed*Game::deltaTime, boundingRect.y,boundingRect.z, boundingRect.a};
+    glm::vec4 yRect = {boundingRect.x,boundingRect.y + vertSpeed*Game::deltaTime, boundingRect.z, boundingRect.a };
+    std::vector<glm::vec2>* points = Game::world->getPoints(x,y);
+    int size = (*points).size();
+    for (int i = 0; i < size-1;i ++)
+    {
+        glm::vec2 point = points->at(i);
+        glm::vec2 next = points->at(i+1);
+        if (lineInVec(point,next,xRect))//,(c.sprite.get()->getAngle())))
+        {
+            //std::cout << point.x << " " << point.y << std::endl;
+            horizSpeed = 0;
+        }
+        if (lineInVec(point,next,yRect))//,(c.sprite.get()->getAngle())))
+        {
+            vertSpeed = 0;
+        }
+    }
+    changeCoords(boundingRect.x + horizSpeed*Game::deltaTime, boundingRect.y + vertSpeed*Game::deltaTime);
 
 }
 
@@ -201,7 +220,7 @@ void SharkAI::AI(Creature& shark)
 {
 
       glm::vec4 vec = shark.position.get()->getRect();
-    std::vector<Creature*> lst = (Game::world.getNearestCreatures(100,shark));
+    std::vector<Creature*> lst = (Game::creatures.getNearestCreatures(100,shark));
     int size = lst.size();
     glm::vec2 target(vec.x +vec.z+ shark.position.get()->getSpeed(),vec.y);
     for (int i = 0; i < size; i ++)
