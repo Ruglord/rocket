@@ -89,6 +89,8 @@
 		<Unit filename="traitWrappers.h" />
 		<Unit filename="traits.cpp" />
 		<Unit filename="traits.h" />
+		<Unit filename="world.cpp" />
+		<Unit filename="world.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

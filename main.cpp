@@ -44,7 +44,7 @@ World* Game::world;
 InputController Game::input;
 int main(int argc, char *argv[])
 {
-    std::cout << lineInVec({0,0},{0,100},{10,100,50,100},M_PI/2) << std::endl;
+
 bool quit = false;
 SDL_Event e;
 SDL_Init(SDL_INIT_VIDEO);

@@ -102,22 +102,30 @@ void CreaturePosition::moveTowards(double x, double y, Creature& c) //moves the 
     }
     glm::vec4 xRect = {boundingRect.x + horizSpeed*Game::deltaTime, boundingRect.y,boundingRect.z, boundingRect.a};
     glm::vec4 yRect = {boundingRect.x,boundingRect.y + vertSpeed*Game::deltaTime, boundingRect.z, boundingRect.a };
+    glm::vec4 project = {boundingRect.x + horizSpeed*Game::deltaTime,boundingRect.y + vertSpeed*Game::deltaTime, boundingRect.z, boundingRect.a };
     std::vector<glm::vec2>* points = Game::world->getPoints(x,y);
     int size = (*points).size();
+    double angle = c.sprite.get()->getAngle();
     for (int i = 0; i < size-1;i ++)
     {
         glm::vec2 point = points->at(i);
         glm::vec2 next = points->at(i+1);
-        if (lineInVec(point,next,xRect))//,(c.sprite.get()->getAngle())))
+        if (lineInVec(point,next,xRect,angle))//,(c.sprite.get()->getAngle())))
         {
-            //std::cout << point.x << " " << point.y << std::endl;
             horizSpeed = 0;
         }
-        if (lineInVec(point,next,yRect))//,(c.sprite.get()->getAngle())))
+        if (lineInVec(point,next,yRect,angle))//,(c.sprite.get()->getAngle())))
         {
             vertSpeed = 0;
         }
+
+        if (horizSpeed == 0 && vertSpeed == 0)
+        {
+            break;
+        }
     }
+  /*  Game::renderer->drawRectangle({1,.1,1},xRect,angle);
+    Game::renderer->drawRectangle({1,.1,1},yRect,angle);*/
     changeCoords(boundingRect.x + horizSpeed*Game::deltaTime, boundingRect.y + vertSpeed*Game::deltaTime);
 
 }

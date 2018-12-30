@@ -30,6 +30,13 @@
             s.render(program,translated.x,translated.y, coords.z, coords.a);
             //box.renderInstanced(program,{{{0,0,64,64},0}});
     }
+    void Camera::drawRect(RenderProgram& program, const glm::vec3 color, const glm::vec4& rect, double angle)
+    {
+        glm::vec2 corner = translate({rect.x,rect.y});
+        glm::vec4 translated = {corner.x,corner.y, rect.z, rect.a};
+        drawRectangle(program,color,translated,angle);
+    }
+
     void Camera::renderCenter(RenderProgram& program)
     {
         render(program,*(center->position.get()),*(center->sprite.get()));
@@ -78,6 +85,10 @@
             current->sprite.get()->getSprite().setTint({.5,.5,.5});
             camera.render(basic,*current->position.get(),*current->sprite.get());
         }
+    }
+    void RenderController::drawRectangle(const glm::vec3& color, const glm::vec4& rect, double angle)
+    {
+        camera.drawRect(lineProgram,color,rect,angle);
     }
 
     glm::vec4 RenderController::getRegion()

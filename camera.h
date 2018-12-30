@@ -16,6 +16,7 @@ public:
     void renderCenter(RenderProgram& program);
     glm::vec4 getRegion();
     glm::vec2 translate(const glm::vec2& point);
+    void drawRect(RenderProgram& program, const glm::vec3 color, const glm::vec4& rect, double angle);
 
 };
 class Creature;
@@ -32,6 +33,7 @@ public:
     RenderController(std::string vertex, std::string fragment,int width, int height, Rocket& r);
     void render(SpriteComponent& sprite, PositionComponent& position);
     void render(Creature& creature);
+    void drawRectangle(const glm::vec3& color, const glm::vec4& rect, double angle);
     glm::vec4 getRegion();
     glm::vec2 translate(const glm::vec2& point);
     void update();

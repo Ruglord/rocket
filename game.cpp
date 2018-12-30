@@ -75,6 +75,8 @@ void Game::everyTick(SDL_Event& e)
         world->render();
         renderer->update();
         renderer->render(*player);
+        glm::vec4 r = player->position.get()->getRect();
+      //  drawRectangle(RenderController::lineProgram,{1,1,1},{Game::screenWidth/2 - r.z/2,Game::screenHeight/2 - r.a/2, r.z,r.a},player->sprite.get()->getAngle());
     }
         SDL_Keycode pressed =  input.keyManager.getJustPressed();
        if (pressed == SDLK_ESCAPE)
