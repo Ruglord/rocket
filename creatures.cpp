@@ -105,7 +105,7 @@ void CreaturePosition::moveTowards(double x, double y, Creature& c) //moves the 
     glm::vec4 project = {boundingRect.x + horizSpeed*Game::deltaTime,boundingRect.y + vertSpeed*Game::deltaTime, boundingRect.z, boundingRect.a };
     std::vector<glm::vec2>* points = Game::world->getPoints(x,y);
     int size = (*points).size();
-    double angle = c.sprite.get()->getAngle();
+    double angle = atan2(y-boundingRect.y - boundingRect.a/2, x - boundingRect.x - boundingRect.z/2);
     for (int i = 0; i < size-1;i ++)
     {
         glm::vec2 point = points->at(i);
@@ -124,8 +124,8 @@ void CreaturePosition::moveTowards(double x, double y, Creature& c) //moves the 
             break;
         }
     }
-  /*  Game::renderer->drawRectangle({1,.1,1},xRect,angle);
-    Game::renderer->drawRectangle({1,.1,1},yRect,angle);*/
+    Game::renderer->drawRectangle({1,.1,1},xRect,angle);
+    Game::renderer->drawRectangle({1,.1,1},yRect,angle);
     changeCoords(boundingRect.x + horizSpeed*Game::deltaTime, boundingRect.y + vertSpeed*Game::deltaTime);
 
 }
