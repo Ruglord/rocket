@@ -100,21 +100,30 @@ void CreaturePosition::moveTowards(double x, double y, Creature& c) //moves the 
     {
         vertSpeed = y-hit.y;
     }
-    glm::vec4 xRect = {boundingRect.x + horizSpeed*Game::deltaTime, boundingRect.y,boundingRect.z, boundingRect.a};
-    glm::vec4 yRect = {boundingRect.x,boundingRect.y + vertSpeed*Game::deltaTime, boundingRect.z, boundingRect.a };
-    glm::vec4 project = {boundingRect.x + horizSpeed*Game::deltaTime,boundingRect.y + vertSpeed*Game::deltaTime, boundingRect.z, boundingRect.a };
+
+    glm::vec2 center = getCenter();
+    double angle = atan2(y-center.y, x - center.x);
+    glm::vec2 projectPoint = rotatePoint({center.x+boundingRect.z/4+ horizSpeed*Game::deltaTime,center.y+ vertSpeed*Game::deltaTime},center,angle);
+     projectPoint = {projectPoint.x-boundingRect.z/4,projectPoint.y-boundingRect.a/2};
+    glm::vec4 xRect = {projectPoint.x + horizSpeed*Game::deltaTime,projectPoint.y,boundingRect.z/2, boundingRect.a};
+    glm::vec4 yRect = {projectPoint.x, projectPoint.y + vertSpeed*Game::deltaTime, boundingRect.z/2, boundingRect.a};
     std::vector<glm::vec2>* points = Game::world->getPoints(x,y);
+    double currentAngle = c.sprite.get()->getAngle();
     int size = (*points).size();
-    double angle = atan2(y-boundingRect.y - boundingRect.a/2, x - boundingRect.x - boundingRect.z/2);
     for (int i = 0; i < size-1;i ++)
     {
         glm::vec2 point = points->at(i);
         glm::vec2 next = points->at(i+1);
-        if (lineInVec(point,next,xRect,angle))//,(c.sprite.get()->getAngle())))
+        /*if (lineInVec(point,next,project,angle))
+        {
+            horizSpeed = 0;
+            vertSpeed = 0;
+        }*/
+        if (lineInVec(point,next,xRect,angle) &&  horizSpeed != 0)//,(c.sprite.get()->getAngle())))
         {
             horizSpeed = 0;
         }
-        if (lineInVec(point,next,yRect,angle))//,(c.sprite.get()->getAngle())))
+        if (lineInVec(point,next,yRect,angle) && vertSpeed!= 0)//,(c.sprite.get()->getAngle())))
         {
             vertSpeed = 0;
         }
@@ -123,9 +132,11 @@ void CreaturePosition::moveTowards(double x, double y, Creature& c) //moves the 
         {
             break;
         }
+
     }
-    Game::renderer->drawRectangle({1,.1,1},xRect,angle);
-    Game::renderer->drawRectangle({1,.1,1},yRect,angle);
+    Game::renderer->drawRectangle({1,0,0},xRect,angle);
+    Game::renderer->drawRectangle({0,0,1},yRect,angle);
+//    Game::renderer->drawRectangle({0,0,1},project,angle);
     changeCoords(boundingRect.x + horizSpeed*Game::deltaTime, boundingRect.y + vertSpeed*Game::deltaTime);
 
 }
