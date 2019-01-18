@@ -3,6 +3,8 @@
 
 #include "FreeTypeHelper.h"
 
+#include "world.h"
+
 extern Sprite rocket;
 extern Sprite box;
 extern Sprite fish;
@@ -13,6 +15,8 @@ extern Sprite speedUpSprite;
 extern Sprite9 frame;
 
 extern Font alef;
+
+extern ChunkSprite dirt;
 
 void loadSprites(int stanW, int stanH);
 

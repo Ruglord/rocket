@@ -3,10 +3,10 @@
 #include <vector>
 #include <list>
 #include "objects.h"
-#include "camera.h"
 class CreatureWorld;
 class Creature;
 class Trait;
+class Camera;
 struct AIComponent : public Component
 {
     virtual void AI( Creature& e) ;

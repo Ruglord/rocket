@@ -41,6 +41,10 @@
     {
         render(program,*(center->position.get()),*(center->sprite.get()));
     }
+    void Camera::render(Chunk& chunk)
+    {
+        chunk.texture->render(*chunk.request,chunk.w,chunk.h,chunk.points,chunk.area,{region.x,region.y});
+    }
     glm::vec4 Camera::getRegion()
     {
         return region;
@@ -75,6 +79,14 @@
         }
         camera.render(*sprite.request,position,sprite);
         sprite.request = &basic;
+    }
+    void RenderController::render(Chunk& chunk)
+    {
+        if (chunk.request == nullptr)
+        {
+            chunk.request = &basic;
+        }
+        camera.render(chunk);
     }
     void RenderController::renderEntities(const std::vector<Creature*>& lst)
     {

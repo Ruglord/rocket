@@ -49,7 +49,7 @@ void Game::init()
     currentTime = SDL_GetTicks();
     setDimensions();
     world = new World();
-    player = new Rocket(0,0);
+    player = new Rocket(0,-20);
     renderer = new RenderController("shaders/vertex/vertexShader.h","shaders/fragment/fragmentShader.h",screenWidth,screenHeight,*player);
     interface.init();
 

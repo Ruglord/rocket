@@ -95,7 +95,7 @@ CreatureWorld* world = &Game::creatures;
 world->addCreature(shark);
 
 Sprite background;
-background.init(dimen.x,dimen.y,"sprites/cloudBackground.png",false);
+background.init("sprites/cloudBackground.png",false);
 
 
 //rocket.mirror();
@@ -104,6 +104,7 @@ background.init(dimen.x,dimen.y,"sprites/cloudBackground.png",false);
 int fps;
 SpriteComponent* testComponent = new SpriteComponent;
 testComponent->setSprite(sharkSprite);
+double x = 0;
 while(quit == false)
 {
  //   std::cout << SDL_GetTicks() << std::endl;
@@ -120,9 +121,13 @@ while(quit == false)
     glClearColor(0,(.7-height/10000),1-height/10000,1);
     //sharkSprite.renderInstanced(testProgram,{{{0,0,640,640}}});
     Game::everyTick(e);
+   // dirt.render(Game::renderer->basic,64,64,&ch);
+    //box.renderInstanced(Game::renderer->basic,{{{100,80,64,64}}});
     //box.render(program,0,0,64,64,angle);
    // angle += .001;
+   //dirt.renderInstanced(Game::renderer->basic,{{{x,0,64,64}}});
     SDL_GL_SwapWindow(window);
+    x+= .01;
 //std::cout << SDL_GetTicks() << std::endl;
     //alef.write(wordProgram,"FPS: " + convert(fps),0,0,1,{0,0,0});
 SDL_Delay(1);

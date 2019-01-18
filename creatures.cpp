@@ -105,11 +105,20 @@ void CreaturePosition::moveTowards(double x, double y, Creature& c) //moves the 
     double angle = atan2(y-center.y, x - center.x);
     glm::vec2 projectPoint = rotatePoint({center.x+boundingRect.z/4+ horizSpeed*Game::deltaTime,center.y+ vertSpeed*Game::deltaTime},center,angle);
      projectPoint = {projectPoint.x-boundingRect.z/4,projectPoint.y-boundingRect.a/2};
-    glm::vec4 xRect = {projectPoint.x + horizSpeed*Game::deltaTime,projectPoint.y,boundingRect.z/2, boundingRect.a};
-    glm::vec4 yRect = {projectPoint.x, projectPoint.y + vertSpeed*Game::deltaTime, boundingRect.z/2, boundingRect.a};
-    std::vector<glm::vec2>* points = Game::world->getPoints(x,y);
+    glm::vec4 xRect = {projectPoint.x + horizSpeed*Game::deltaTime,projectPoint.y+.5,boundingRect.z/2, boundingRect.a-1};
+    glm::vec4 yRect = {projectPoint.x, projectPoint.y + vertSpeed*Game::deltaTime+.5, boundingRect.z/2, boundingRect.a-1};
+    Chunk* ch = &(Game::world->getPoints(x,y));
+    std::vector<glm::vec2>* points = &(ch->points);
     double currentAngle = c.sprite.get()->getAngle();
     int size = (*points).size();
+    if (vecIntersect(xRect,ch->area))
+    {
+        horizSpeed = 0;
+    }
+    if (vecIntersect(yRect,ch->area))
+    {
+        vertSpeed = 0;
+    }
     for (int i = 0; i < size-1;i ++)
     {
         glm::vec2 point = points->at(i);
@@ -134,8 +143,8 @@ void CreaturePosition::moveTowards(double x, double y, Creature& c) //moves the 
         }
 
     }
-    Game::renderer->drawRectangle({1,0,0},xRect,angle);
-    Game::renderer->drawRectangle({0,0,1},yRect,angle);
+   // Game::renderer->drawRectangle({1,0,0},xRect,angle);
+    //Game::renderer->drawRectangle({0,0,1},yRect,angle);
 //    Game::renderer->drawRectangle({0,0,1},project,angle);
     changeCoords(boundingRect.x + horizSpeed*Game::deltaTime, boundingRect.y + vertSpeed*Game::deltaTime);
 

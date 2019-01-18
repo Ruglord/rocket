@@ -11,17 +11,20 @@ Sprite speedUpSprite;
 Sprite9 frame;
 
 Font alef;
+
+ChunkSprite dirt;
+
 void loadSprites(int stanW, int stanH)
 {
-    rocket.init(stanW,stanH,"sprites/rocket.png", true);
-    box.init(stanW, stanH, "sprites/square.png", true);
-    fish.init(stanW,stanH,"sprites/fish.png",true);
-    sharkSprite.init(stanW,stanH,"sprites/shark.png",true);
-    traitIcon.init(stanW,stanH,"sprites/traitIcon.png",true);
-    speedUpSprite.init(stanW,stanH,"sprites/fire.png",true);
+    rocket.init("sprites/rocket.png", true);
+    box.init("sprites/square.png", true);
+    fish.init("sprites/fish.png",true);
+    sharkSprite.init("sprites/shark.png",true);
+    traitIcon.init("sprites/traitIcon.png",true);
+    speedUpSprite.init("sprites/fire.png",true);
 
-    frame.init(stanW,stanH, "sprites/frame.png",false,{16,16},{16,16});
+    frame.init("sprites/frame.png",false,{16,16},{16,16});
 
     alef.init("alef.ttf",stanW, stanH);
-
+    dirt.init("sprites/dirt.jpg",false);
 }
